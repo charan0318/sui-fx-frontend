@@ -1,415 +1,412 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
+import { PulseBeams } from "@/components/ui/pulse-beams";
+import { TokenRequestModal } from "@/components/ui/token-request-modal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
 import { 
-  Droplets, 
   ArrowRight, 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  Copy,
-  ExternalLink,
-  AlertTriangle,
-  Loader2
+  Sparkles,
+  Server,
+  Database,
+  Shield,
+  Zap,
+  GitBranch,
+  Clock
 } from "lucide-react";
 import suiFxVideo from "@assets/sui fx_1753728098196.mp4";
 
-interface FaucetResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    transactionHash: string;
-    amount: string;
-    walletAddress: string;
-    network: string;
-    explorerUrl: string;
-  };
-}
-
-interface HealthStatus {
-  status: string;
-  uptime: string;
-  services: {
-    database: string;
-    redis: string;
-    sui: string;
-  };
-}
+const beams = [
+  {
+    path: "M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5",
+    gradientConfig: {
+      initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
+      animate: {
+        x1: ["0%", "0%", "200%"],
+        x2: ["0%", "0%", "180%"],
+        y1: ["80%", "0%", "0%"],
+        y2: ["100%", "20%", "20%"],
+      },
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "loop" as const,
+        ease: "linear",
+        repeatDelay: 2,
+        delay: Math.random() * 2,
+      },
+    },
+  },
+  {
+    path: "M269 220.5H500C505.523 220.5 510 224.977 510 230.5V398.5",
+    gradientConfig: {
+      initial: { x1: "100%", x2: "100%", y1: "80%", y2: "100%" },
+      animate: {
+        x1: ["100%", "100%", "-100%"],
+        x2: ["100%", "100%", "-80%"],
+        y1: ["80%", "0%", "0%"],
+        y2: ["100%", "20%", "20%"],
+      },
+      transition: {
+        duration: 2.5,
+        repeat: Infinity,
+        repeatType: "loop" as const,
+        ease: "linear",
+        repeatDelay: 1.5,
+        delay: Math.random() * 2,
+      },
+    },
+  },
+];
 
 export default function Home() {
-  const [walletAddress, setWalletAddress] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastTransaction, setLastTransaction] = useState<FaucetResponse | null>(null);
-  const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
-  const [rateLimitInfo, setRateLimitInfo] = useState<{nextRequest: number} | null>(null);
-  const { toast } = useToast();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
-  // Validate SUI wallet address
-  const isValidAddress = (address: string): boolean => {
-    const cleanAddress = address.startsWith('0x') ? address.slice(2) : address;
-    return /^[a-fA-F0-9]{64}$/.test(cleanAddress);
-  };
+  // Get system stats
+  const { data: stats } = useQuery<any>({
+    queryKey: ["/api/stats"],
+    refetchInterval: 30000,
+  });
 
-  // Copy to clipboard
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied!",
-      description: "Address copied to clipboard",
-    });
-  };
-
-  // Request tokens
-  const handleRequestTokens = async () => {
-    if (!isValidAddress(walletAddress)) {
-      toast({
-        title: "Invalid Address",
-        description: "Please enter a valid 64-character SUI wallet address",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/v1/faucet/request', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': 'suifx-production-api-key-12345-production'
-        },
-        body: JSON.stringify({
-          walletAddress: walletAddress.startsWith('0x') ? walletAddress : `0x${walletAddress}`
-        })
-      });
-
-      const data: FaucetResponse = await response.json();
-      setLastTransaction(data);
-
-      if (data.success) {
-        toast({
-          title: "Success!",
-          description: "Tokens sent successfully to your wallet",
-        });
-        setWalletAddress("");
-      } else {
-        toast({
-          title: "Request Failed",
-          description: data.message,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Network Error",
-        description: "Failed to connect to faucet service",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Fetch health status
-  React.useEffect(() => {
-    const fetchHealth = async () => {
-      try {
-        const response = await fetch('/api/v1/health');
-        const data = await response.json();
-        setHealthStatus(data);
-      } catch (error) {
-        console.error('Failed to fetch health status:', error);
-      }
-    };
-
-    fetchHealth();
-    const interval = setInterval(fetchHealth, 30000); // Update every 30 seconds
-    return () => clearInterval(interval);
+  // Handle video load
+  useEffect(() => {
+    const video = document.createElement('video');
+    video.src = suiFxVideo;
+    video.onloadeddata = () => setIsVideoLoaded(true);
   }, []);
 
-  const formatTimeRemaining = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
-  };
-
   return (
-    <div className="min-h-screen text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Video Background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="fixed top-0 left-0 w-full h-full object-cover z-[-10]"
-        style={{ zIndex: -10 }}
-      >
-        <source src={suiFxVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Subtle dark overlay for better text readability */}
-      <div className="fixed top-0 left-0 w-full h-full bg-black/40 z-[-5]" style={{ zIndex: -5 }} />
+      <div className="fixed inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-30"
+          style={{ filter: 'blur(1px)' }}
+        >
+          <source src={suiFxVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+      </div>
 
       {/* Main Content */}
-      <div className="relative z-10 min-h-screen" style={{ zIndex: 10 }}>
-        <div className="container mx-auto px-6 py-12">
-          
-          {/* Hero Header */}
+      <div className="relative z-10">
+        {/* Navigation Header */}
+        <nav className="flex justify-between items-center px-6 py-4 md:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center space-x-2"
           >
-            {/* Network Badge */}
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full backdrop-blur-sm mb-6">
-              <div className={`w-2 h-2 rounded-full animate-pulse ${
-                healthStatus?.status === 'healthy' ? 'bg-green-400' : 'bg-red-400'
-              }`}></div>
-              <span className="text-sm text-blue-300">
-                Sui Testnet {healthStatus?.status === 'healthy' ? '• Live' : '• Offline'}
-              </span>
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
             </div>
-
-            {/* Title */}
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
-              <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                SUI-FX
-              </span>
-              <br />
-              <span className="text-3xl md:text-5xl text-gray-200">
-                Testnet Faucet
-              </span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-              Get SUI testnet tokens instantly for development and testing purposes
-            </p>
+            <span className="text-xl font-bold font-space-grotesk">SUI-FX</span>
           </motion.div>
 
-          {/* Main Faucet Interface */}
-          <div className="max-w-4xl mx-auto grid gap-8">
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="hidden md:flex items-center space-x-6"
+          >
+            <a href="/docs" className="text-gray-300 hover:text-white transition-colors font-inter">Docs</a>
+            <a href="/status" className="text-gray-300 hover:text-white transition-colors font-inter">Status</a>
+            <a href="/admin" className="text-gray-300 hover:text-white transition-colors font-inter">Admin</a>
+            <Badge variant="outline" className="border-green-500/50 text-green-400">
+              {stats?.success ? 'Online' : 'Loading...'}
+            </Badge>
+          </motion.div>
+        </nav>
+
+        {/* Hero Section - Two Column Layout */}
+        <div className="container mx-auto px-6 py-12 md:py-20">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[70vh]">
             
-            {/* Faucet Form */}
+            {/* Left Column - Content */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
             >
-              <Card className="bg-black/30 border-gray-700 backdrop-blur-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-white">
-                    <Droplets className="w-6 h-6 text-blue-400 mr-3" />
-                    Request Testnet Tokens
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Wallet Address Input */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300">
-                      Enter your SUI wallet address
-                    </label>
-                    <div className="relative">
-                      <Input
-                        placeholder="0x1234567890abcdef..."
-                        value={walletAddress}
-                        onChange={(e) => setWalletAddress(e.target.value)}
-                        className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 pr-10"
-                        disabled={isLoading}
-                      />
-                      {walletAddress && (
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                          {isValidAddress(walletAddress) ? (
-                            <CheckCircle className="w-5 h-5 text-green-400" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-red-400" />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    {walletAddress && !isValidAddress(walletAddress) && (
-                      <p className="text-sm text-red-400">
-                        Invalid wallet address format. Must be 64 hex characters.
-                      </p>
-                    )}
-                  </div>
+              {/* Status Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center space-x-2"
+              >
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm text-blue-300 font-inter">
+                  Sui Testnet • Live
+                </span>
+              </motion.div>
 
-                  {/* Amount Display */}
-                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
-                    <span className="text-gray-300">Amount per request:</span>
-                    <Badge variant="secondary" className="bg-blue-500/20 text-blue-300">
-                      0.1 SUI
-                    </Badge>
-                  </div>
+              {/* Main Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-6xl md:text-8xl font-bold tracking-tight font-space-grotesk leading-none"
+              >
+                <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                  SUI-FX
+                </span>
+                <br />
+                <span className="text-4xl md:text-6xl text-gray-200">
+                  Testnet Faucet
+                </span>
+              </motion.h1>
 
-                  {/* Request Button */}
-                  <Button
-                    onClick={handleRequestTokens}
-                    disabled={!isValidAddress(walletAddress) || isLoading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold py-6 text-lg transition-all duration-300"
-                  >
-                    {isLoading ? (
-                      <div className="flex items-center space-x-2">
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Processing...</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2">
-                        <Droplets className="w-5 h-5" />
-                        <span>Request Tokens</span>
-                        <ArrowRight className="w-5 h-5" />
-                      </div>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl md:text-2xl text-gray-300 max-w-lg leading-relaxed font-inter"
+              >
+                Get SUI testnet tokens instantly for development and testing. 
+                Fast, reliable, and secure token distribution.
+              </motion.p>
 
-            {/* Rate Limiting Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Card className="bg-black/30 border-gray-700 backdrop-blur-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-white">
-                    <Clock className="w-6 h-6 text-yellow-400 mr-3" />
-                    Rate Limits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300">1 request per hour per wallet</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300">100 requests per hour per IP</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300">No registration required</span>
-                    </div>
-                  </div>
-                  {rateLimitInfo && (
-                    <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                      <div className="flex items-center space-x-2 text-yellow-400">
-                        <AlertTriangle className="w-4 h-4" />
-                        <span className="text-sm">
-                          Next request available in: {formatTimeRemaining(rateLimitInfo.nextRequest)}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
+              {/* Stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-wrap items-center gap-6 text-sm"
+              >
+                <div className="flex items-center space-x-2">
+                  <Server className="w-4 h-4 text-blue-400" />
+                  <span className="text-gray-300 font-inter">
+                    {stats?.data?.totalRequests || 0} requests served
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Clock className="w-4 h-4 text-purple-400" />
+                  <span className="text-gray-300 font-inter">Instant delivery</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-4 h-4 text-green-400" />
+                  <span className="text-gray-300 font-inter">Rate limited</span>
+                </div>
+              </motion.div>
 
-            {/* Transaction Result */}
-            {lastTransaction && (
+              {/* CTA Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
               >
-                <Card className={`border backdrop-blur-lg ${
-                  lastTransaction.success 
-                    ? 'bg-green-500/10 border-green-500/30' 
-                    : 'bg-red-500/10 border-red-500/30'
-                }`}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-white">
-                      {lastTransaction.success ? (
-                        <CheckCircle className="w-6 h-6 text-green-400 mr-3" />
-                      ) : (
-                        <XCircle className="w-6 h-6 text-red-400 mr-3" />
-                      )}
-                      {lastTransaction.success ? 'Transaction Successful' : 'Transaction Failed'}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-gray-300">{lastTransaction.message}</p>
-                    
-                    {lastTransaction.success && lastTransaction.data && (
-                      <div className="space-y-3">
-                        {/* Transaction Hash */}
-                        <div className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
-                          <div>
-                            <span className="text-sm text-gray-400">Transaction Hash:</span>
-                            <p className="font-mono text-sm text-white break-all">
-                              {lastTransaction.data.transactionHash}
-                            </p>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => copyToClipboard(lastTransaction.data!.transactionHash)}
-                            className="ml-2"
-                          >
-                            <Copy className="w-4 h-4" />
-                          </Button>
-                        </div>
-
-                        {/* Amount */}
-                        <div className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
-                          <span className="text-sm text-gray-400">Amount Sent:</span>
-                          <Badge variant="secondary" className="bg-green-500/20 text-green-300">
-                            0.1 SUI
-                          </Badge>
-                        </div>
-
-                        {/* Explorer Link */}
-                        <Button
-                          variant="outline"
-                          className="w-full border-gray-600 text-gray-300 hover:text-white hover:bg-white/10"
-                          onClick={() => window.open(lastTransaction.data!.explorerUrl, '_blank')}
-                        >
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          View on SuiScan Explorer
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+                <Button
+                  onClick={() => setIsModalOpen(true)}
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold px-8 py-6 text-lg transition-all duration-300 font-space-grotesk group"
+                >
+                  <Sparkles className="w-5 h-5 mr-2 group-hover:animate-pulse" />
+                  Request Tokens
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 px-8 py-6 text-lg font-space-grotesk"
+                  onClick={() => window.open('/docs', '_blank')}
+                >
+                  Learn More
+                </Button>
               </motion.div>
-            )}
 
-            {/* Features Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8"
-            >
-              <div className="text-center p-4 bg-black/20 rounded-lg backdrop-blur-sm">
-                <div className="w-3 h-3 bg-green-400 rounded-full mx-auto mb-2"></div>
-                <span className="text-sm text-gray-300">Instant Transfer</span>
-              </div>
-              <div className="text-center p-4 bg-black/20 rounded-lg backdrop-blur-sm">
-                <div className="w-3 h-3 bg-blue-400 rounded-full mx-auto mb-2"></div>
-                <span className="text-sm text-gray-300">0.1 SUI per Request</span>
-              </div>
-              <div className="text-center p-4 bg-black/20 rounded-lg backdrop-blur-sm">
-                <div className="w-3 h-3 bg-purple-400 rounded-full mx-auto mb-2"></div>
-                <span className="text-sm text-gray-300">Rate Limited</span>
-              </div>
-              <div className="text-center p-4 bg-black/20 rounded-lg backdrop-blur-sm">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full mx-auto mb-2"></div>
-                <span className="text-sm text-gray-300">No Registration</span>
-              </div>
+              {/* Quick Info */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="flex items-center space-x-4 pt-4 text-sm text-gray-400 font-inter"
+              >
+                <span>✓ 0.1 SUI per request</span>
+                <span>✓ 1 hour cooldown</span>
+                <span>✓ No registration required</span>
+              </motion.div>
             </motion.div>
 
+            {/* Right Column - Visual Elements */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="relative"
+            >
+              {/* Main Visual Container */}
+              <div className="relative h-[600px] group">
+                {/* Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-3xl opacity-60 group-hover:opacity-80 transition-opacity duration-1000" />
+                
+                {/* Glass Card Container */}
+                <div className="relative h-full bg-black/20 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden">
+                  {/* Animated Grid Background */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="w-full h-full bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] animate-pulse" />
+                  </div>
+
+                  {/* Pulse Beams */}
+                  <div className="absolute inset-0">
+                    <PulseBeams beams={beams} />
+                  </div>
+
+                  {/* Canvas Reveal Effect on Hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <CanvasRevealEffect
+                      animationSpeed={3}
+                      containerClassName="bg-transparent"
+                      colors={[[24, 204, 252], [99, 68, 245]]}
+                      showGradient={false}
+                    />
+                  </div>
+
+                  {/* Central Logo/Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      animate={{ 
+                        rotate: 360,
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ 
+                        rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                        scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                      className="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-2xl"
+                    >
+                      <Sparkles className="w-16 h-16 text-white" />
+                    </motion.div>
+                  </div>
+
+                  {/* Floating Elements */}
+                  <motion.div
+                    animate={{ 
+                      y: [-20, 20, -20],
+                      x: [-10, 10, -10]
+                    }}
+                    transition={{ 
+                      duration: 6, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: 0
+                    }}
+                    className="absolute top-20 left-20 w-16 h-16 bg-blue-500/20 rounded-full blur-sm"
+                  />
+                  <motion.div
+                    animate={{ 
+                      y: [20, -20, 20],
+                      x: [10, -10, 10]
+                    }}
+                    transition={{ 
+                      duration: 8, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: 1
+                    }}
+                    className="absolute bottom-20 right-20 w-24 h-24 bg-purple-500/20 rounded-full blur-sm"
+                  />
+                  <motion.div
+                    animate={{ 
+                      y: [-10, 30, -10],
+                      x: [15, -15, 15]
+                    }}
+                    transition={{ 
+                      duration: 7, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: 2
+                    }}
+                    className="absolute top-40 right-12 w-12 h-12 bg-cyan-500/20 rounded-full blur-sm"
+                  />
+
+                  {/* Subtle particles */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    {Array.from({ length: 20 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-1 h-1 bg-white/30 rounded-full"
+                        style={{
+                          left: `${Math.random() * 100}%`,
+                          top: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                          opacity: [0, 1, 0],
+                          scale: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 3 + Math.random() * 2,
+                          repeat: Infinity,
+                          delay: Math.random() * 3,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Decorative elements that "bleed" over */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  className="absolute -top-8 -right-8 w-24 h-24 border border-blue-500/30 rounded-full"
+                />
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                  className="absolute -bottom-8 -left-8 w-32 h-32 border border-purple-500/20 rounded-full"
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Bottom Section - Network Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="container mx-auto px-6 py-12"
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="space-y-2">
+              <div className="text-2xl font-bold text-white font-space-grotesk">
+                {stats?.data?.totalRequests || '0'}
+              </div>
+              <div className="text-sm text-gray-400 font-inter">Total Requests</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-2xl font-bold text-white font-space-grotesk">0.1</div>
+              <div className="text-sm text-gray-400 font-inter">SUI per Request</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-2xl font-bold text-white font-space-grotesk">1hr</div>
+              <div className="text-sm text-gray-400 font-inter">Rate Limit</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-2xl font-bold text-green-400 font-space-grotesk">Live</div>
+              <div className="text-sm text-gray-400 font-inter">Network Status</div>
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Token Request Modal */}
+      <TokenRequestModal 
+        open={isModalOpen} 
+        onOpenChange={setIsModalOpen}
+      />
     </div>
   );
 }
