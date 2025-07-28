@@ -11,22 +11,26 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
       {/* Video Background */}
       <video
         autoPlay
         muted
         loop
-        className="fixed top-0 left-0 w-full h-full object-cover z-[-1]"
+        playsInline
+        preload="auto"
+        className="fixed top-0 left-0 w-full h-full object-cover z-[-10]"
+        style={{ zIndex: -10 }}
       >
         <source src={suiFxVideo} type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
 
-      {/* Dark overlay for better text readability */}
-      <div className="fixed top-0 left-0 w-full h-full bg-black/40 z-0" />
+      {/* Subtle dark overlay for better text readability */}
+      <div className="fixed top-0 left-0 w-full h-full bg-black/30 z-[-5]" style={{ zIndex: -5 }} />
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-center">
+      <section className="relative z-10 min-h-screen flex items-center justify-center" style={{ zIndex: 10 }}>
         <div className="container mx-auto px-6 text-center">
           <div className="space-y-8 max-w-4xl mx-auto">
             {/* Network Badge */}
