@@ -183,19 +183,26 @@ export default function Home(){
                 </div>
               </motion.div>
 
-              {/* Quick Access Link to Faucet */}
+              {/* Enhanced CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-6"
+                className="pt-8 flex justify-start"
               >
-                <a 
-                  href="/faucet" 
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter text-lg group"
-                >
-                  <span>Access Faucet</span>
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                <a href="/faucet" className="block">
+                  <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-auto">
+                    <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
+                    <Button
+                      size="lg"
+                      className="relative bg-black hover:bg-gray-900 text-white font-semibold py-6 px-12 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
+                    >
+                      <span className="flex items-center justify-center space-x-3">
+                        <span>REQUEST TOKENS</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </span>
+                    </Button>
+                  </div>
                 </a>
               </motion.div>
             </motion.div>
