@@ -9,7 +9,6 @@ import { NavBar } from "@/components/ui/tubelight-navbar";
 import { PulseBeams } from "@/components/ui/pulse-beams";
 import { 
   ArrowRight, 
-  Home,
   Book,
   HelpCircle,
   Activity,
@@ -77,7 +76,7 @@ export default function Home(){
   });
 
   const navItems = [
-    { name: 'Home', url: '/', icon: Home },
+    { name: 'Home', url: '/', icon: ArrowRight },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
     { name: 'Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
