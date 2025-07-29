@@ -198,7 +198,7 @@ export default function Home(){
                       className="relative bg-black hover:bg-gray-900 text-white font-semibold py-6 px-12 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
                     >
                       <span className="flex items-center justify-center space-x-3">
-                        <span>REQUEST TOKENS</span>
+                        <span>GO TO FAUCET</span>
                         <ArrowRight className="w-5 h-5" />
                       </span>
                     </Button>

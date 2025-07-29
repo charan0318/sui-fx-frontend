@@ -24,7 +24,7 @@ import {
   ArrowRight,
   Sparkles
 } from "lucide-react";
-import suiFxVideo from "@assets/sui fx_1753728098196.mp4";
+  import suiFxVideo from "@/components/background/sui_fx_background.mp4";
 
 const faucetRequestSchema = z.object({
   walletAddress: z.string().regex(/^0x[a-fA-F0-9]{64}$/, "Invalid SUI wallet address format"),
@@ -110,8 +110,7 @@ export default function Faucet() {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-30"
-          style={{ filter: 'blur(1px)' }}
+          className="w-full h-full object-cover opacity-100"
         >
           <source src={suiFxVideo} type="video/mp4" />
         </video>
@@ -290,7 +289,7 @@ export default function Faucet() {
                               </div>
                             ) : (
                               <div className="flex items-center justify-center space-x-3">
-                                <span>REQUEST TOKENS</span>
+                                <span>SEND 1 SUI</span>
                                 <ArrowRight className="w-5 h-5" />
                               </div>
                             )}
@@ -419,7 +418,7 @@ export default function Faucet() {
           className="container mx-auto px-6 py-8 text-center"
         >
           <p className="text-gray-400 font-inter text-sm">
-            Built with 🤍 from0n0niverse
+            Built with 🤍 from ch04niverse
           </p>
         </motion.div>
       </div>
