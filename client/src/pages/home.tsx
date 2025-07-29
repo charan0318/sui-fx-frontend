@@ -252,7 +252,6 @@ export default function Home(){
               </Card>
             </motion.div>
           </div>
-          </div>
         </div>
 
         {/* Footer */}
