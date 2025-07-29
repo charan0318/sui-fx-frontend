@@ -117,12 +117,95 @@ export default function Home(){
         <div className="container mx-auto px-8 py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center min-h-[85vh]">
             
-            {/* Left Column - Faucet Form (Moved from right) */}
+            {/* Left Column - Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-10 order-1 lg:order-1 text-left"
+            >
+              {/* Tagline */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center space-x-3"
+              >
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-pulse"></div>
+                <span className="text-sm text-blue-300 font-inter tracking-wide">
+                  Fuel the Future. One SUI at a time
+                </span>
+              </motion.div>
+
+              {/* Main Headline - Enhanced Typography */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="space-y-6"
+              >
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight font-space-grotesk leading-none">
+                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                    SUI FX
+                  </span>
+                </h1>
+                <p className="text-3xl md:text-4xl text-gray-300 font-space-grotesk tracking-wide">
+                  TESTNET FAUCET
+                </p>
+              </motion.div>
+
+              {/* Enhanced Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="space-y-6 max-w-2xl"
+              >
+                <p className="text-xl text-gray-300 leading-relaxed font-inter">
+                  Get SUI testnet tokens instantly for development and testing purposes. 
+                  Build, test, and deploy on the fastest growing blockchain ecosystem.
+                </p>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-3 gap-6 pt-6">
+                  <div className="text-center space-y-2">
+                    <div className="text-2xl font-bold text-white font-space-grotesk">0.1</div>
+                    <div className="text-sm text-gray-400 font-inter">SUI per request</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="text-2xl font-bold text-white font-space-grotesk">1hr</div>
+                    <div className="text-sm text-gray-400 font-inter">Cooldown</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <div className="text-2xl font-bold text-white font-space-grotesk">24/7</div>
+                    <div className="text-sm text-gray-400 font-inter">Available</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Quick Access Link to Faucet */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="pt-6"
+              >
+                <a 
+                  href="/faucet" 
+                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter text-lg group"
+                >
+                  <span>Access Faucet</span>
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Faucet Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8 order-2 lg:order-1"
+              className="space-y-8 order-2 lg:order-2"
             >
               {/* Enhanced Faucet Card with Premium Elements */}
               <PulseBeams
@@ -195,89 +278,6 @@ export default function Home(){
                   </CardContent>
                 </Card>
               </PulseBeams>
-            </motion.div>
-
-            {/* Right Column - Content (Moved from left, improved spacing) */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-10 order-1 lg:order-2 text-left pl-0 lg:pl-8"
-            >
-              {/* Tagline */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center space-x-3"
-              >
-                <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-blue-300 font-inter tracking-wide">
-                  Fuel the Future. One SUI at a time
-                </span>
-              </motion.div>
-
-              {/* Main Headline - Enhanced Typography */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="space-y-6"
-              >
-                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight font-space-grotesk leading-none">
-                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                    SUI FX
-                  </span>
-                </h1>
-                <p className="text-3xl md:text-4xl text-gray-300 font-space-grotesk tracking-wide">
-                  TESTNET FAUCET
-                </p>
-              </motion.div>
-
-              {/* Enhanced Description */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="space-y-6 max-w-2xl"
-              >
-                <p className="text-xl text-gray-300 leading-relaxed font-inter">
-                  Get SUI testnet tokens instantly for development and testing purposes. 
-                  Build, test, and deploy on the fastest growing blockchain ecosystem.
-                </p>
-
-                {/* Quick Stats */}
-                <div className="grid grid-cols-3 gap-6 pt-6">
-                  <div className="text-center space-y-2">
-                    <div className="text-2xl font-bold text-white font-space-grotesk">0.1</div>
-                    <div className="text-sm text-gray-400 font-inter">SUI per request</div>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="text-2xl font-bold text-white font-space-grotesk">1hr</div>
-                    <div className="text-sm text-gray-400 font-inter">Cooldown</div>
-                  </div>
-                  <div className="text-center space-y-2">
-                    <div className="text-2xl font-bold text-white font-space-grotesk">24/7</div>
-                    <div className="text-sm text-gray-400 font-inter">Available</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Quick Access Link to Home (Replacing FAQ buttons) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="pt-6"
-              >
-                <a 
-                  href="/" 
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter text-lg group"
-                >
-                  <span>Back to Home</span>
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </motion.div>
             </motion.div>
           </div>
         </div>
