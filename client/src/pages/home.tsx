@@ -7,9 +7,9 @@ import {
   ArrowRight, 
   Sparkles
 } from "lucide-react";
-import suiFxVideo from "@assets/sui fx_1753728098196.mp4";
+import suiFxVideo from "@/components/background/sui_fx_background.mp4"; // Ensure this points to your desired video
 
-export default function Home() {
+export default function Home(){
   // Get system stats
   const { data: stats } = useQuery<any>({
     queryKey: ["/api/stats"],
@@ -25,8 +25,7 @@ export default function Home() {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-30"
-          style={{ filter: 'blur(1px)' }}
+          className="w-full h-full object-cover opacity-100"
         >
           <source src={suiFxVideo} type="video/mp4" />
         </video>
@@ -129,112 +128,9 @@ export default function Home() {
                 </a>
               </motion.div>
             </motion.div>
-
-            {/* Right Column - SUI Logo/Visual */}
-            <motion.div
-              initial={{ opacity: 0, x: 50, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="relative flex items-center justify-center"
-            >
-              {/* Glowing Background */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl opacity-60" />
               </div>
-              
-              {/* Neon Glow Effect */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-80 h-80 border-2 border-blue-400/30 rounded-full animate-pulse" />
-                <div className="absolute w-72 h-72 border border-blue-300/20 rounded-full animate-ping" />
-              </div>
-
-              {/* SUI Logo Container */}
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.05, 1],
-                  rotate: [0, 1, -1, 0]
-                }}
-                transition={{ 
-                  duration: 6, 
-                  repeat: Infinity, 
-                  ease: "easeInOut"
-                }}
-                className="relative z-10 w-64 h-64 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl backdrop-blur-xl border border-white/10 flex items-center justify-center"
-              >
-                {/* SUI Logo - Using a water drop SVG as placeholder */}
-                <motion.div
-                  animate={{ 
-                    y: [-5, 5, -5],
-                  }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut"
-                  }}
-                  className="w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-2xl"
-                >
-                  {/* Water Drop Shape - SUI Logo Placeholder */}
-                  <svg 
-                    width="64" 
-                    height="64" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    className="text-white"
-                  >
-                    <path 
-                      d="M12 2C12 2 6 8 6 13C6 16.866 8.686 20 12 20C15.314 20 18 16.866 18 13C18 8 12 2 12 2Z" 
-                      fill="currentColor"
-                      fillOpacity="0.9"
-                    />
-                    <path 
-                      d="M12 16C10.343 16 9 14.657 9 13" 
-                      stroke="rgba(255,255,255,0.3)" 
-                      strokeWidth="1" 
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </motion.div>
-
-                {/* Floating Particles */}
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-2 h-2 bg-blue-400/40 rounded-full"
-                    style={{
-                      left: `${20 + Math.cos(i * 30 * Math.PI / 180) * 80}%`,
-                      top: `${50 + Math.sin(i * 30 * Math.PI / 180) * 80}%`,
-                    }}
-                    animate={{
-                      opacity: [0.2, 0.8, 0.2],
-                      scale: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 3 + Math.random() * 2,
-                      repeat: Infinity,
-                      delay: Math.random() * 3,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-              </motion.div>
-
-              {/* Status Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                className="absolute bottom-8 right-8"
-              >
-                <div className="px-4 py-2 bg-black/50 backdrop-blur-sm rounded-full border border-green-500/30">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-sm text-green-400 font-inter">status</span>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
+            </div>
+            
 
         {/* Footer */}
         <motion.div
