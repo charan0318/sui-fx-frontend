@@ -199,58 +199,6 @@ export default function Home(){
                 </a>
               </motion.div>
             </motion.div>
-
-            {/* Right Column - Simple Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8 order-2 lg:order-2"
-            >
-              {/* Simplified Info Card */}
-              <Card className="bg-black/40 border-gray-700/50 backdrop-blur-xl shadow-2xl">
-                <CardHeader className="pb-6">
-                  <CardTitle className="flex items-center text-white font-space-grotesk text-2xl">
-                    <Droplets className="w-7 h-7 text-blue-400 mr-4" />
-                    Testnet Faucet
-                  </CardTitle>
-                  <p className="text-gray-300 font-inter">
-                    Get free testnet tokens for development
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="p-6 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20">
-                    <div className="text-center space-y-3">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                        <Droplets className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-white font-space-grotesk">
-                        0.1 SUI
-                      </h3>
-                      <p className="text-sm text-gray-300 font-inter">
-                        Per request • 1 hour cooldown
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Features List */}
-                  <div className="space-y-3 pt-4 border-t border-gray-700/50">
-                    <div className="flex items-center space-x-3 text-sm">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">Instant distribution</span>
-                    </div>
-                    <div className="flex items-center space-x-3 text-sm">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">No registration required</span>
-                    </div>
-                    <div className="flex items-center space-x-3 text-sm">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">Rate limited for fairness</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
           </div>
         </div>
 
