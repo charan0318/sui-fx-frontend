@@ -85,7 +85,7 @@ export const PulseBeams = ({
   );
 };
 
-const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }: any) => {
+const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }) => {
   return (
     <svg
       width={width}
@@ -95,7 +95,7 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }: 
       xmlns="http://www.w3.org/2000/svg"
       className="flex flex-shrink-0"
     >
-      {beams.map((beam: BeamPath, index: number) => (
+      {beams.map((beam, index) => (
         <React.Fragment key={index}>
           <path
             d={beam.path}
@@ -122,14 +122,14 @@ const SVGs = ({ beams, width, height, baseColor, accentColor, gradientColors }: 
       ))}
 
       <defs>
-        {beams.map((beam: BeamPath, index: number) => (
+        {beams.map((beam, index) => (
           <motion.linearGradient
             key={index}
             id={`grad${index}`}
             gradientUnits="userSpaceOnUse"
             initial={beam.gradientConfig.initial}
             animate={beam.gradientConfig.animate}
-            transition={beam.gradientConfig.transition as any}
+            transition={beam.gradientConfig.transition}
           >
             <GradientColors colors={gradientColors} />
           </motion.linearGradient>
