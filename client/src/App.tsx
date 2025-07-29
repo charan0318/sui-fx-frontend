@@ -7,12 +7,16 @@ import Home from "@/pages/home";
 import Admin from "@/pages/admin";
 import Docs from "@/pages/docs";
 import Status from "@/pages/status";
+import Faucet from "@/pages/faucet";
+import FAQ from "@/pages/faq";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/faucet" component={Faucet} />
+      <Route path="/faq" component={FAQ} />
       <Route path="/admin" component={Admin} />
       <Route path="/docs" component={Docs} />
       <Route path="/status" component={Status} />
