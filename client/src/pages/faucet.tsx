@@ -274,24 +274,27 @@ export default function Faucet() {
                           </Badge>
                         </div>
 
-                        {/* Request Button */}
-                        <Button
-                          type="submit"
-                          disabled={requestTokensMutation.isPending}
-                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold py-6 text-lg transition-all duration-300 font-space-grotesk"
-                        >
-                          {requestTokensMutation.isPending ? (
-                            <div className="flex items-center space-x-2">
-                              <Loader2 className="w-5 h-5 animate-spin" />
-                              <span>Processing...</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center space-x-2">
-                              <Droplets className="w-5 h-5" />
-                              <span>Request Tokens</span>
-                            </div>
-                          )}
-                        </Button>
+                        {/* Enhanced Request Button */}
+                        <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-full">
+                          <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
+                          <Button
+                            type="submit"
+                            disabled={requestTokensMutation.isPending}
+                            className="relative w-full bg-black hover:bg-gray-900 text-white font-semibold py-6 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
+                          >
+                            {requestTokensMutation.isPending ? (
+                              <div className="flex items-center justify-center space-x-3">
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                                <span>PROCESSING...</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-center space-x-3">
+                                <span>REQUEST TOKENS</span>
+                                <ArrowRight className="w-5 h-5" />
+                              </div>
+                            )}
+                          </Button>
+                        </div>
                       </form>
                     </Form>
                   ) : (
