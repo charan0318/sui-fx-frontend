@@ -21,6 +21,7 @@ import {
   Clock,
   AlertTriangle,
   ArrowLeft,
+  ArrowRight,
   Sparkles
 } from "lucide-react";
 import suiFxVideo from "@assets/sui fx_1753728098196.mp4";
