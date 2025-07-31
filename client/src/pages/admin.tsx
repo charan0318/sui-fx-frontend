@@ -414,19 +414,24 @@ export default function Admin() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="container mx-auto px-6 py-8"
+          className="container mx-auto px-8 py-8 flex items-center justify-between"
         >
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="flex items-center space-x-3">
-              <img src={logoFm} alt="Logo" className="w-8 h-8" />
-              <span className="text-xl font-bold font-space-grotesk bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                SUI-FX
-              </span>
-            </div>
-            <p className="text-gray-400 font-inter text-sm">
-              Built with 🤍 from 0n0niverse
-            </p>
-          </div>
+          <img 
+            src={logoFm} 
+            alt="FM Logo" 
+            className="w-12 h-12 opacity-80"
+          />
+          <p className="text-gray-400 font-inter text-sm flex-1 text-center">
+            Built with 🤍 from ch04niverse
+          </p>
+          <a 
+            href="https://docs.sui.io/guides/developer/getting-started/connect"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4 py-2 bg-black/20 border border-white/10 backdrop-blur-sm rounded-lg text-white/80 hover:text-white hover:bg-black/30 transition-all duration-300 text-sm font-inter"
+          >
+            Built with Sui
+          </a>
         </motion.div>
       </div>
     </div>

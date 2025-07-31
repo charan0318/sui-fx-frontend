@@ -234,7 +234,14 @@ export default function Home(){
           <p className="text-gray-400 font-inter text-sm flex-1 text-center">
             Built with 🤍 from ch04niverse
           </p>
-          <div className="w-12"></div> {/* Spacer for balance */}
+          <a 
+            href="https://docs.sui.io/guides/developer/getting-started/connect"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-4 py-2 bg-black/20 border border-white/10 backdrop-blur-sm rounded-lg text-white/80 hover:text-white hover:bg-black/30 transition-all duration-300 text-sm font-inter"
+          >
+            Built with Sui
+          </a>
         </motion.div>
       </div>
     </div>

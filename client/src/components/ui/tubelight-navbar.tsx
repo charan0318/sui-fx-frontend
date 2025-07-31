@@ -31,6 +31,15 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  useEffect(() => {
+    // Set active tab based on current URL
+    const currentPath = window.location.pathname
+    const currentItem = items.find(item => item.url === currentPath)
+    if (currentItem) {
+      setActiveTab(currentItem.name)
+    }
+  }, [])
+
   return (
     <div
       className={cn(
