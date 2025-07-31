@@ -19,7 +19,7 @@ import suiFxVideo from "@/components/background/sui_fx_background.mp4";
 
 const beams = [
   {
-    path: "M269 220.5H16.5C10.9772 220.5 6.5 224.977 6.5 230.5V398.5",
+    path: "M80 100H20C14.4772 100 10 104.477 10 110V170",
     gradientConfig: {
       initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
       animate: {
@@ -38,12 +38,12 @@ const beams = [
       },
     },
     connectionPoints: [
-      { cx: 6.5, cy: 398.5, r: 6 },
-      { cx: 269, cy: 220.5, r: 6 }
+      { cx: 10, cy: 170, r: 4 },
+      { cx: 80, cy: 100, r: 4 }
     ]
   },
   {
-    path: "M568 200H841C846.523 200 851 195.523 851 190V40",
+    path: "M320 90H370C375.523 90 380 85.523 380 80V30",
     gradientConfig: {
       initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
       animate: {
@@ -62,8 +62,32 @@ const beams = [
       },
     },
     connectionPoints: [
-      { cx: 851, cy: 34, r: 6.5 },
-      { cx: 568, cy: 200, r: 6 }
+      { cx: 380, cy: 30, r: 4 },
+      { cx: 320, cy: 90, r: 4 }
+    ]
+  },
+  {
+    path: "M200 120V150C200 155.523 195.523 160 190 160H50C44.477 160 40 164.477 40 170V190",
+    gradientConfig: {
+      initial: { x1: "0%", x2: "0%", y1: "80%", y2: "100%" },
+      animate: {
+        x1: ["20%", "100%", "100%"],
+        x2: ["0%", "90%", "90%"],
+        y1: ["80%", "80%", "-20%"],
+        y2: ["100%", "100%", "0%"],
+      },
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "loop",
+        ease: "linear",
+        repeatDelay: 2,
+        delay: Math.random() * 2,
+      },
+    },
+    connectionPoints: [
+      { cx: 40, cy: 190, r: 4 },
+      { cx: 200, cy: 120, r: 4 }
     ]
   }
 ];
@@ -171,27 +195,40 @@ export default function Home(){
                 </div>
               </motion.div>
 
-              {/* Enhanced CTA Button */}
+              {/* Enhanced CTA Button with PulseBeams */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
                 className="pt-8 flex justify-start pl-28"
               >
-                <a href="/faucet" className="block">
-                  <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-auto">
-                    <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
-                    <Button
-                      size="lg"
-                      className="relative bg-black hover:bg-gray-900 text-white font-semibold py-6 px-12 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0 mr-4 ml-4"
-                    >
-                      <span className="flex items-center justify-center space-x-3">
-                        <span>GO TO FAUCET</span>
-                        <ArrowRight className="w-5 h-5" />
+                <PulseBeams
+                  beams={beams}
+                  gradientColors={{
+                    start: "#18CCFC",
+                    middle: "#6344F5",
+                    end: "#AE48FF"
+                  }}
+                  className="w-[400px] h-[200px] bg-transparent"
+                  width={400}
+                  height={200}
+                >
+                  <a href="/faucet" className="block">
+                    <button className="bg-black/80 backdrop-blur-sm w-[320px] z-40 h-[120px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300">
+                      <span className="absolute inset-0 overflow-hidden rounded-full">
+                        <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </span>
-                    </Button>
-                  </div>
-                </a>
+                      <div className="relative flex justify-center w-[320px] text-center space-x-2 h-[120px] items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                        <span className="flex items-center space-x-3">
+                          <span className="md:text-2xl text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                            GO TO FAUCET
+                          </span>
+                          <ArrowRight className="w-6 h-6 text-blue-400" />
+                        </span>
+                      </div>
+                    </button>
+                  </a>
+                </PulseBeams>
               </motion.div>
             </motion.div>
           </div>
