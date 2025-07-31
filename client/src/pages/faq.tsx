@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, HelpCircle, ArrowLeft } from "lucide-react";
-import suiFxVideo from "@assets/sui fx_1753728098196.mp4";
+
 
 const faqs = [
   {
@@ -66,18 +66,8 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Video Background */}
+      {/* Background */}
       <div className="fixed inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover opacity-30"
-          style={{ filter: 'blur(1px)' }}
-        >
-          <source src={suiFxVideo} type="video/mp4" />
-        </video>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
       </div>
