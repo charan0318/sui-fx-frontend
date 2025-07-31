@@ -3,7 +3,15 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, HelpCircle, ArrowLeft } from "lucide-react";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { 
+  HelpCircle, 
+  ArrowLeft, 
+  Book,
+  Activity,
+  Shield,
+  Droplets 
+} from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
 
 
@@ -65,6 +73,15 @@ export default function FAQ() {
     refetchInterval: 30000,
   });
 
+  const navItems = [
+    { name: 'Home', url: '/', icon: ArrowLeft },
+    { name: 'Faucet', url: '/faucet', icon: Droplets },
+    { name: 'API Docs', url: '/docs', icon: Book },
+    { name: 'FAQ', url: '/faq', icon: HelpCircle },
+    { name: 'Status', url: '/status', icon: Activity },
+    { name: 'Admin', url: '/admin', icon: Shield }
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Background */}
@@ -73,38 +90,17 @@ export default function FAQ() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10">
-        {/* Navigation Header */}
-        <nav className="flex justify-between items-center px-6 py-4 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-2"
-          >
-            <a href="/" className="flex items-center space-x-2 hover:opacity-80">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <span className="text-xl font-bold font-space-grotesk">SUI-FX</span>
-            </a>
-          </motion.div>
+      {/* Navigation */}
+      <NavBar items={navItems} />
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="hidden md:flex items-center space-x-6"
-          >
-            <a href="/" className="text-gray-300 hover:text-white transition-colors font-inter">Home</a>
-            <a href="/faucet" className="text-gray-300 hover:text-white transition-colors font-inter">Faucet</a>
-            <a href="/docs" className="text-gray-300 hover:text-white transition-colors font-inter">Docs</a>
-            <a href="/status" className="text-gray-300 hover:text-white transition-colors font-inter">Status</a>
-            <a href="/admin" className="text-gray-300 hover:text-white transition-colors font-inter">Admin</a>
-            <Badge variant="outline" className="border-green-500/50 text-green-400">
-              {stats?.success ? 'Online' : 'Loading...'}
-            </Badge>
-          </motion.div>
-        </nav>
+      {/* Main Content */}
+      <div className="relative z-10 pt-16">
+        {/* Status Indicator */}
+        <div className="fixed top-6 right-6 z-50">
+          <Badge variant="outline" className="border-green-500/50 text-green-400 bg-black/20 backdrop-blur-sm">
+            {stats?.success ? 'Online' : 'Loading...'}
+          </Badge>
+        </div>
 
         {/* Main Content */}
         <div className="container mx-auto px-6 py-12">

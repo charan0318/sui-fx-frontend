@@ -17,7 +17,7 @@ export default function Status() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'API Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
     { name: 'Status', url: '/status', icon: Activity },
     { name: 'Admin', url: '/admin', icon: Shield }

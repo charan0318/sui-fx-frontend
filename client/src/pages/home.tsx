@@ -103,7 +103,7 @@ export default function Home(){
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowRight },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'API Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
     { name: 'Status', url: '/status', icon: Activity },
     { name: 'Admin', url: '/admin', icon: Shield }
@@ -185,7 +185,7 @@ export default function Home(){
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-4 flex justify-start relative right-20 bottom-16 "  // Decreased pt for less padding
+                className="pt-4 flex flex-col items-start space-y-4 relative right-20 bottom-16"
               >
                 <PulseBeams
                   beams={beams}
@@ -199,7 +199,7 @@ export default function Home(){
                   height={200}
                 >
                   <a href="/faucet" className="block">
-                    <button className="bg-black/80 backdrop-blur-sm w-[240px] z-40 h-[70px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300 mt-">  {/* Added mt-2 to move button up */}
+                    <button className="bg-black/80 backdrop-blur-sm w-[240px] z-40 h-[70px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300">
                       <span className="absolute inset-0 overflow-hidden rounded-full">
                         <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </span>
@@ -214,6 +214,27 @@ export default function Home(){
                     </button>
                   </a>
                 </PulseBeams>
+                
+                {/* Get your API button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="ml-20"
+                >
+                  <a href="/docs" className="block">
+                    <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[200px] h-[60px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-cyan-400/50 hover:shadow-cyan-500/20">
+                      <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full px-4">
+                        <span className="flex items-center space-x-2">
+                          <span className="text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-cyan-300 to-blue-300 group-hover:from-white group-hover:via-cyan-200 group-hover:to-blue-200 transition-all duration-300">
+                            Get your API
+                          </span>
+                          <Book className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" />
+                        </span>
+                      </div>
+                    </button>
+                  </a>
+                </motion.div>
               </motion.div>
             </motion.div>
           </div>
