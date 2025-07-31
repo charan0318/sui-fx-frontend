@@ -179,16 +179,10 @@ export default function FAQ() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a 
-                    href="/docs" 
+                    href="https://discord.gg/your-discord-link" 
                     className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-lg text-white font-semibold font-space-grotesk transition-all duration-300"
                   >
-                    View Documentation
-                  </a>
-                  <a 
-                    href="/status" 
-                    className="inline-flex items-center justify-center px-6 py-3 border border-gray-600 hover:bg-white/10 rounded-lg text-gray-300 hover:text-white font-semibold font-space-grotesk transition-all duration-300"
-                  >
-                    Check Status
+                    Contact Us
                   </a>
                 </div>
               </CardContent>

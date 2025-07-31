@@ -339,89 +339,26 @@ export default function Faucet() {
                 </CardContent>
               </Card>
             </motion.div>
-
-            {/* Right Column - Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8"
-            >
-              {/* Back Link */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <a 
-                  href="/" 
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Home
-                </a>
-              </motion.div>
-
-              {/* Tagline */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center space-x-2"
-              >
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-blue-300 font-inter">
-                  Fuel the Future. One SUI at a time
-                </span>
-              </motion.div>
-
-              {/* Main Headline */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h1 className="text-6xl md:text-7xl font-bold tracking-tight font-space-grotesk leading-none mb-4">
-                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                    SUI FX
-                  </span>
-                </h1>
-                <p className="text-2xl md:text-3xl text-gray-300 font-space-grotesk">
-                  TESTNET FAUCET
-                </p>
-              </motion.div>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg text-gray-300 max-w-lg leading-relaxed font-inter"
-              >
-                Get SUI testnet tokens instantly for development and testing purposes
-              </motion.p>
-            </motion.div>
           </div>
         </div>
 
+        {/* Footer */}
         {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="container mx-auto px-6 py-8"
+          className="container mx-auto px-8 py-8 flex items-center justify-between"
         >
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="flex items-center space-x-3">
-              <img src={logoFm} alt="Logo" className="w-8 h-8" />
-              <span className="text-xl font-bold font-space-grotesk bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                SUI-FX
-              </span>
-            </div>
-            <p className="text-gray-400 font-inter text-sm">
-              Built with 🤍 from 0n0niverse
-            </p>
-          </div>
+          <img 
+            src={logoFm} 
+            alt="FM Logo" 
+            className="w-12 h-12 opacity-80"
+          />
+          <p className="text-gray-400 font-inter text-sm flex-1 text-center">
+            Built with 🤍 from ch04niverse
+          </p>
+          <div className="w-12"></div> {/* Spacer for balance */}
         </motion.div>
       </div>
     </div>
