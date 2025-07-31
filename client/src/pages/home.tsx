@@ -97,8 +97,8 @@ export default function Home(){
         >
           <source src={suiFxVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
 
       {/* Premium Navigation */}
@@ -124,18 +124,6 @@ export default function Home(){
               transition={{ duration: 0.8 }}
               className="space-y-10 order-1 lg:order-1 text-left"
             >
-              {/* Tagline */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center space-x-3"
-              >
-                <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-blue-300 font-inter tracking-wide">
-                  Fuel the Future. One SUI at a time
-                </span>
-              </motion.div>
 
               {/* Main Headline - Enhanced Typography */}
               <motion.div
@@ -188,14 +176,14 @@ export default function Home(){
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-8 flex justify-start"
+                className="pt-8 flex justify-start pl-28"
               >
                 <a href="/faucet" className="block">
                   <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-auto">
                     <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
                     <Button
                       size="lg"
-                      className="relative bg-black hover:bg-gray-900 text-white font-semibold py-6 px-12 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
+                      className="relative bg-black hover:bg-gray-900 text-white font-semibold py-6 px-12 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0 mr-4 ml-4"
                     >
                       <span className="flex items-center justify-center space-x-3">
                         <span>GO TO FAUCET</span>
