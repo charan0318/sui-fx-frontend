@@ -200,7 +200,7 @@ export default function Home(){
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-8 flex justify-start pl-28"
+                className="pt-4 flex justify-start pl-28"  // Add more padding top if needed
               >
                 <PulseBeams
                   beams={beams}
@@ -214,13 +214,13 @@ export default function Home(){
                   height={200}
                 >
                   <a href="/faucet" className="block">
-                    <button className="bg-black/80 backdrop-blur-sm w-[320px] z-40 h-[120px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300">
+                    <button className="bg-black/80 backdrop-blur-sm w-[240px] z-40 h-[100px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300">  {/* Removed mb-32 */}
                       <span className="absolute inset-0 overflow-hidden rounded-full">
                         <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </span>
-                      <div className="relative flex justify-center w-[320px] text-center space-x-2 h-[120px] items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                      <div className="relative flex justify-center w-[240px] text-center space-x-2 h-[100px] items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
                         <span className="flex items-center space-x-3">
-                          <span className="md:text-2xl text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                          <span className="md:text-xl text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
                             GO TO FAUCET
                           </span>
                           <ArrowRight className="w-6 h-6 text-blue-400" />
@@ -242,7 +242,7 @@ export default function Home(){
           className="container mx-auto px-8 py-8 text-center"
         >
           <p className="text-gray-400 font-inter text-sm">
-            Built with 🤍 from0n0niverse
+            Built with 🤍 from ch04niverse
           </p>
         </motion.div>
       </div>
