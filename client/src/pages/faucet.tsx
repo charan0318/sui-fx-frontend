@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { 
@@ -22,9 +23,14 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
+  Book,
+  HelpCircle,
+  Activity,
+  Shield,
   Sparkles
 } from "lucide-react";
-  import suiFxVideo from "@/components/background/sui_fx_background.mp4";
+import suiFxVideo from "@/components/background/sui_fx_background.mp4";
+import logoFm from "@/components/background/logo_fm.png";
 
 const faucetRequestSchema = z.object({
   walletAddress: z.string().regex(/^0x[a-fA-F0-9]{64}$/, "Invalid SUI wallet address format"),
@@ -36,6 +42,15 @@ export default function Faucet() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [lastTransaction, setLastTransaction] = useState<any>(null);
+
+  const navItems = [
+    { name: 'Home', url: '/', icon: ArrowLeft },
+    { name: 'Faucet', url: '/faucet', icon: Droplets },
+    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'FAQ', url: '/faq', icon: HelpCircle },
+    { name: 'Status', url: '/status', icon: Activity },
+    { name: 'Admin', url: '/admin', icon: Shield }
+  ];
 
   const form = useForm<FaucetRequestForm>({
     resolver: zodResolver(faucetRequestSchema),
@@ -114,114 +129,31 @@ export default function Faucet() {
         >
           <source src={suiFxVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10">
-        {/* Navigation Header */}
-        <nav className="flex justify-between items-center px-6 py-4 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center space-x-2"
-          >
-            <a href="/" className="flex items-center space-x-2 hover:opacity-80">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <span className="text-xl font-bold font-space-grotesk">SUI-FX</span>
-            </a>
-          </motion.div>
+      {/* Navigation */}
+      <NavBar items={navItems} />
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="hidden md:flex items-center space-x-6"
-          >
-            <a href="/" className="text-gray-300 hover:text-white transition-colors font-inter">Home</a>
-            <a href="/docs" className="text-gray-300 hover:text-white transition-colors font-inter">Docs</a>
-            <a href="/faq" className="text-gray-300 hover:text-white transition-colors font-inter">FAQ</a>
-            <a href="/status" className="text-gray-300 hover:text-white transition-colors font-inter">Status</a>
-            <a href="/admin" className="text-gray-300 hover:text-white transition-colors font-inter">Admin</a>
-            <Badge variant="outline" className="border-green-500/50 text-green-400">
-              {stats?.success ? 'Online' : 'Loading...'}
-            </Badge>
-          </motion.div>
-        </nav>
+      {/* Main Content */}
+      <div className="relative z-10 pt-16">
+        {/* Status Indicator */}
+        <div className="fixed top-6 right-6 z-50">
+          <Badge variant="outline" className="border-green-500/50 text-green-400 bg-black/20 backdrop-blur-sm">
+            {stats?.success ? 'Online' : 'Loading...'}
+          </Badge>
+        </div>
 
         {/* Main Content - Two Column Layout */}
         <div className="container mx-auto px-6 py-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
             
-            {/* Left Column - Content */}
+            {/* Left Column - Faucet Form */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              {/* Back Link */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <a 
-                  href="/" 
-                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Home
-                </a>
-              </motion.div>
-
-              {/* Tagline */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-center space-x-2"
-              >
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-blue-300 font-inter">
-                  Fuel the Future. One SUI at a time
-                </span>
-              </motion.div>
-
-              {/* Main Headline */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h1 className="text-6xl md:text-7xl font-bold tracking-tight font-space-grotesk leading-none mb-4">
-                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                    SUI FX
-                  </span>
-                </h1>
-                <p className="text-2xl md:text-3xl text-gray-300 font-space-grotesk">
-                  TESTNET FAUCET
-                </p>
-              </motion.div>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg text-gray-300 max-w-lg leading-relaxed font-inter"
-              >
-                Get SUI testnet tokens instantly for development and testing purposes
-              </motion.p>
-            </motion.div>
-
-            {/* Right Column - Faucet Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-6"
             >
               {/* Faucet Card */}
@@ -407,6 +339,68 @@ export default function Faucet() {
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Right Column - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-8"
+            >
+              {/* Back Link */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <a 
+                  href="/" 
+                  className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors font-inter"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Home
+                </a>
+              </motion.div>
+
+              {/* Tagline */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center space-x-2"
+              >
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm text-blue-300 font-inter">
+                  Fuel the Future. One SUI at a time
+                </span>
+              </motion.div>
+
+              {/* Main Headline */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <h1 className="text-6xl md:text-7xl font-bold tracking-tight font-space-grotesk leading-none mb-4">
+                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                    SUI FX
+                  </span>
+                </h1>
+                <p className="text-2xl md:text-3xl text-gray-300 font-space-grotesk">
+                  TESTNET FAUCET
+                </p>
+              </motion.div>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg text-gray-300 max-w-lg leading-relaxed font-inter"
+              >
+                Get SUI testnet tokens instantly for development and testing purposes
+              </motion.p>
+            </motion.div>
           </div>
         </div>
 
@@ -415,11 +409,19 @@ export default function Faucet() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="container mx-auto px-6 py-8 text-center"
+          className="container mx-auto px-6 py-8"
         >
-          <p className="text-gray-400 font-inter text-sm">
-            Built with 🤍 from ch04niverse
-          </p>
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="flex items-center space-x-3">
+              <img src={logoFm} alt="Logo" className="w-8 h-8" />
+              <span className="text-xl font-bold font-space-grotesk bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                SUI-FX
+              </span>
+            </div>
+            <p className="text-gray-400 font-inter text-sm">
+              Built with 🤍 from 0n0niverse
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>

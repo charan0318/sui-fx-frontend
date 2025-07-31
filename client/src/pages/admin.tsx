@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,9 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { ShieldCheck, LogIn, LogOut, Server, Wallet, BarChart3, ExternalLink } from "lucide-react";
+import { ShieldCheck, LogIn, LogOut, Server, Wallet, BarChart3, ExternalLink, Book, HelpCircle, Activity, Shield, Droplets, ArrowLeft } from "lucide-react";
+import logoFm from "@/components/background/logo_fm.png";
 
 const adminLoginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -24,6 +27,21 @@ export default function Admin() {
   const queryClient = useQueryClient();
   const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem('adminSession'));
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!sessionId);
+
+  // Get system stats
+  const { data: stats } = useQuery<any>({
+    queryKey: ["/api/stats"],
+    refetchInterval: 30000,
+  });
+
+  const navItems = [
+    { name: 'Home', url: '/', icon: ArrowLeft },
+    { name: 'Faucet', url: '/faucet', icon: Droplets },
+    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'FAQ', url: '/faq', icon: HelpCircle },
+    { name: 'Status', url: '/status', icon: Activity },
+    { name: 'Admin', url: '/admin', icon: Shield }
+  ];
 
   const form = useForm<AdminLoginForm>({
     resolver: zodResolver(adminLoginSchema),
@@ -108,7 +126,18 @@ export default function Admin() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-black text-white overflow-hidden">
+        {/* Background */}
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        </div>
+
+        {/* Navigation */}
+        <NavBar items={navItems} />
+
+        {/* Main Content */}
+        <div className="relative z-10 pt-16 flex items-center justify-center min-h-screen">
         <div className="max-w-md w-full mx-4">
           <Card className="glass-morphism border-gray-700">
             <CardHeader className="text-center">
@@ -168,39 +197,74 @@ export default function Admin() {
             </CardContent>
           </Card>
         </div>
+        </div>
       </div>
     );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-black text-white overflow-hidden">
+        {/* Background */}
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        </div>
+
+        {/* Navigation */}
+        <NavBar items={navItems} />
+
+        {/* Main Content */}
+        <div className="relative z-10 pt-16 flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
           <p className="mt-4 text-gray-400">Loading dashboard...</p>
+        </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <header className="border-b border-gray-800">
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      {/* Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+      </div>
+
+      {/* Navigation */}
+      <NavBar items={navItems} />
+
+      {/* Main Content */}
+      <div className="relative z-10 pt-16">
+        {/* Status Indicator */}
+        <div className="fixed top-6 right-6 z-50">
+          <Badge variant="outline" className="border-green-500/50 text-green-400 bg-black/20 backdrop-blur-sm">
+            {stats?.success ? 'Online' : 'Loading...'}
+          </Badge>
+        </div>
+
+        {/* Header */}
         <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between"
+          >
+            <h1 className="text-3xl font-bold font-space-grotesk bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+              Admin Dashboard
+            </h1>
             <Button
               onClick={handleLogout}
               variant="outline"
-              className="border-gray-600 text-gray-300 hover:bg-gray-800"
+              className="border-gray-600 text-gray-300 hover:bg-gray-800 bg-black/20 backdrop-blur-sm"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
-          </div>
+          </motion.div>
         </div>
-      </header>
 
       <div className="container mx-auto px-6 py-8">
         {dashboardData?.success && (
@@ -343,6 +407,27 @@ export default function Admin() {
             </Card>
           </>
         )}
+      </div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="container mx-auto px-6 py-8"
+        >
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="flex items-center space-x-3">
+              <img src={logoFm} alt="Logo" className="w-8 h-8" />
+              <span className="text-xl font-bold font-space-grotesk bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                SUI-FX
+              </span>
+            </div>
+            <p className="text-gray-400 font-inter text-sm">
+              Built with 🤍 from 0n0niverse
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

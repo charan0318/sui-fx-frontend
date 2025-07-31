@@ -1,12 +1,31 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Rocket, Clock, AlertTriangle, Code, ExternalLink, Copy } from "lucide-react";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { Rocket, Clock, AlertTriangle, Code, ExternalLink, Copy, Book, HelpCircle, Activity, Shield, Droplets, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import logoFm from "@/components/background/logo_fm.png";
 
 export default function Docs() {
   const { toast } = useToast();
+
+  // Get system stats
+  const { data: stats } = useQuery<any>({
+    queryKey: ["/api/stats"],
+    refetchInterval: 30000,
+  });
+
+  const navItems = [
+    { name: 'Home', url: '/', icon: ArrowLeft },
+    { name: 'Faucet', url: '/faucet', icon: Droplets },
+    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'FAQ', url: '/faq', icon: HelpCircle },
+    { name: 'Status', url: '/status', icon: Activity },
+    { name: 'Admin', url: '/admin', icon: Shield }
+  ];
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -17,16 +36,40 @@ export default function Docs() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <header className="border-b border-gray-800">
-        <div className="container mx-auto px-6 py-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">API Documentation</h1>
-            <p className="text-gray-400">Complete guide to integrate with SUI-FX faucet</p>
-          </div>
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      {/* Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+      </div>
+
+      {/* Navigation */}
+      <NavBar items={navItems} />
+
+      {/* Main Content */}
+      <div className="relative z-10 pt-16">
+        {/* Status Indicator */}
+        <div className="fixed top-6 right-6 z-50">
+          <Badge variant="outline" className="border-green-500/50 text-green-400 bg-black/20 backdrop-blur-sm">
+            {stats?.success ? 'Online' : 'Loading...'}
+          </Badge>
         </div>
-      </header>
+
+        {/* Header */}
+        <div className="container mx-auto px-6 py-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-space-grotesk">
+              <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                API Documentation
+              </span>
+            </h1>
+            <p className="text-gray-400 font-inter">Complete guide to integrate with SUI-FX faucet</p>
+          </motion.div>
+        </div>
 
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -309,6 +352,28 @@ export default function Docs() {
           </Card>
         </div>
       </div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="container mx-auto px-6 py-8"
+        >
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="flex items-center space-x-3">
+              <img src={logoFm} alt="Logo" className="w-8 h-8" />
+              <span className="text-xl font-bold font-space-grotesk bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                SUI-FX
+              </span>
+            </div>
+            <p className="text-gray-400 font-inter text-sm">
+              Built with 🤍 from 0n0niverse
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
+
