@@ -16,6 +16,7 @@ import {
   Droplets
 } from "lucide-react";
 import suiFxVideo from "@/components/background/sui_fx_background.mp4";
+import logoFm from "@/components/background/logo_fm.png";
 
 const beams = [
   {
@@ -223,11 +224,17 @@ export default function Home(){
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="container mx-auto px-8 py-8 text-center"
+          className="container mx-auto px-8 py-8 flex items-center justify-between"
         >
-          <p className="text-gray-400 font-inter text-sm">
+          <img 
+            src={logoFm} 
+            alt="FM Logo" 
+            className="w-12 h-12 opacity-80"
+          />
+          <p className="text-gray-400 font-inter text-sm flex-1 text-center">
             Built with 🤍 from ch04niverse
           </p>
+          <div className="w-12"></div> {/* Spacer for balance */}
         </motion.div>
       </div>
     </div>
