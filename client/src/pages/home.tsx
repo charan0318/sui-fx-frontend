@@ -200,30 +200,31 @@ export default function Home(){
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-4 flex justify-start pl-28"  // Add more padding top if needed
+                className="pt-8 flex justify-start"
               >
                 <PulseBeams
                   beams={beams}
                   gradientColors={{
-                    start: "#18CCFC",
-                    middle: "#6344F5",
-                    end: "#AE48FF"
+                    start: "#00D4FF",
+                    middle: "#7C3AED",
+                    end: "#F59E0B"
                   }}
-                  className="w-[400px] h-[200px] bg-transparent"
-                  width={400}
-                  height={200}
+                  className="w-[320px] h-[120px] bg-transparent"
+                  width={320}
+                  height={120}
                 >
                   <a href="/faucet" className="block">
-                    <button className="bg-black/80 backdrop-blur-sm w-[240px] z-40 h-[100px] no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300">  {/* Removed mb-32 */}
+                    <button className="bg-gradient-to-r from-slate-900/90 via-slate-800/90 to-slate-900/90 backdrop-blur-sm w-[280px] z-40 h-[60px] no-underline group cursor-pointer relative shadow-2xl shadow-cyan-500/20 rounded-full p-[2px] text-xs font-semibold leading-6 text-white inline-block hover:shadow-cyan-400/40 transition-all duration-500 transform hover:scale-105">
                       <span className="absolute inset-0 overflow-hidden rounded-full">
-                        <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/20 via-blue-500/20 to-purple-500/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <span className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,#00D4FF_90deg,transparent_180deg,#7C3AED_270deg,transparent_360deg)] opacity-0 group-hover:opacity-30 transition-opacity duration-500 animate-spin" style={{animationDuration: '3s'}} />
                       </span>
-                      <div className="relative flex justify-center w-[240px] text-center space-x-2 h-[100px] items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                      <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-gradient-to-r from-slate-900/95 via-slate-800/95 to-slate-900/95 px-6 ring-1 ring-cyan-500/30 group-hover:ring-cyan-400/50 transition-all duration-300">
                         <span className="flex items-center space-x-3">
-                          <span className="md:text-xl text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                          <span className="text-lg font-space-grotesk font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 group-hover:from-cyan-200 group-hover:via-blue-200 group-hover:to-purple-200 transition-all duration-300">
                             GO TO FAUCET
                           </span>
-                          <ArrowRight className="w-6 h-6 text-blue-400" />
+                          <ArrowRight className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300 group-hover:translate-x-1" />
                         </span>
                       </div>
                     </button>
