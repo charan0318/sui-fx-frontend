@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertFaucetRequestSchema, adminLoginSchema } from "@shared/schema";
+import { insertFaucetRequestSchema, adminLoginSchema, insertApiClientSchema } from "@shared/schema";
 import { randomBytes } from "crypto";
 
 // Simple session storage for admin authentication
@@ -304,6 +304,221 @@ export async function registerRoutes(app: Express): Promise<Server> {
         timeRemaining: canRequest ? 0 : Math.ceil((nextRequestTime.getTime() - now.getTime()) / 1000),
       },
     });
+  });
+
+  // ===== API CLIENT MANAGEMENT ROUTES =====
+
+  // Generate unique API credentials
+  const generateApiCredentials = () => {
+    const clientId = "suifx_" + randomBytes(8).toString('hex');
+    const apiKey = "suifx_" + randomBytes(32).toString('hex');
+    return { clientId, apiKey };
+  };
+
+  // Register API client
+  app.post("/api/v1/clients/register", async (req, res) => {
+    try {
+      const validatedData = insertApiClientSchema.parse(req.body);
+      const { clientId, apiKey } = generateApiCredentials();
+
+      const client = await storage.createApiClient({
+        ...validatedData,
+        clientId,
+        apiKey,
+      });
+
+      // Track usage
+      await storage.logClientUsage(clientId, "/api/v1/clients/register", "POST", 201, 0);
+
+      res.status(201).json({
+        success: true,
+        data: {
+          client_id: clientId,
+          api_key: apiKey, // Only shown once!
+          name: client.name,
+          created_at: client.createdAt,
+        },
+      });
+    } catch (error: any) {
+      res.status(400).json({ 
+        success: false,
+        error: error.message || "Failed to register API client" 
+      });
+    }
+  });
+
+  // Get client dashboard data
+  app.get("/api/v1/clients/:clientId", async (req, res) => {
+    try {
+      const { clientId } = req.params;
+      
+      const client = await storage.getApiClientByClientId(clientId);
+      if (!client) {
+        return res.status(404).json({ 
+          success: false,
+          error: "Client not found" 
+        });
+      }
+
+      const usage = await storage.getClientUsageStats(clientId);
+      const recentRequests = await storage.getRecentClientRequests(clientId, 20);
+
+      res.json({
+        success: true,
+        data: {
+          client: {
+            id: client.clientId,
+            name: client.name,
+            description: client.description,
+            created_at: client.createdAt,
+            is_active: client.isActive,
+            last_used: client.lastUsed,
+          },
+          stats: {
+            total_requests: usage.totalRequests,
+            requests_today: usage.requestsToday,
+            avg_response_time: usage.avgResponseTime,
+            success_rate: usage.successRate,
+          },
+          recent_requests: recentRequests.map(req => ({
+            timestamp: req.createdAt,
+            endpoint: req.endpoint,
+            method: req.method,
+            status_code: req.statusCode,
+            response_time: req.responseTime,
+          })),
+        },
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false,
+        error: error.message 
+      });
+    }
+  });
+
+  // API key authentication middleware
+  const authenticateApiKey = async (req: any, res: any, next: any) => {
+    const apiKey = req.headers['x-api-key'];
+    
+    if (!apiKey) {
+      return res.status(401).json({ 
+        success: false,
+        error: "API key required in X-API-Key header" 
+      });
+    }
+
+    try {
+      const client = await storage.getApiClientByApiKey(apiKey);
+      if (!client || !client.isActive) {
+        return res.status(401).json({ 
+          success: false,
+          error: "Invalid or inactive API key" 
+        });
+      }
+
+      // Update last used timestamp
+      await storage.updateApiClientLastUsed(client.clientId);
+      
+      req.apiClient = client;
+      next();
+    } catch (error) {
+      res.status(500).json({ 
+        success: false,
+        error: "Authentication error" 
+      });
+    }
+  };
+
+  // Enhanced faucet request with API key support
+  app.post("/api/v1/faucet/request", authenticateApiKey, async (req, res) => {
+    const startTime = Date.now();
+    
+    try {
+      const { walletAddress } = req.body;
+      const ipAddress = getClientIP(req);
+      const client = (req as any).apiClient;
+
+      // Validate wallet address
+      const validatedData = insertFaucetRequestSchema.parse({ walletAddress, ipAddress });
+      
+      // Check rate limits
+      const rateLimitResult = checkRateLimit(walletAddress, ipAddress);
+      if (!rateLimitResult.allowed) {
+        const responseTime = Date.now() - startTime;
+        await storage.logClientUsage(client.clientId, "/api/v1/faucet/request", "POST", 429, responseTime);
+        
+        return res.status(429).json({
+          success: false,
+          error: rateLimitResult.error,
+          nextRequestTime: rateLimitResult.nextRequestTime,
+        });
+      }
+
+      // Create faucet request
+      const request = await storage.createFaucetRequest(validatedData);
+
+      try {
+        // Simulate SUI transaction
+        const transaction = await simulateSUITransaction(walletAddress, request.amount);
+        
+        // Update request with transaction details
+        await storage.updateFaucetRequest(request.id, {
+          status: "success",
+          transactionHash: transaction.transactionHash,
+        });
+
+        // Update rate limits
+        walletRateLimit.set(walletAddress, new Date());
+        const now = new Date();
+        const ipLimit = ipRateLimit.get(ipAddress);
+        if (!ipLimit || now >= ipLimit.resetTime) {
+          ipRateLimit.set(ipAddress, { count: 1, resetTime: new Date(now.getTime() + 3600000) });
+        } else {
+          ipLimit.count++;
+        }
+
+        // Update system stats
+        await storage.updateSystemStats();
+
+        const responseTime = Date.now() - startTime;
+        await storage.logClientUsage(client.clientId, "/api/v1/faucet/request", "POST", 200, responseTime);
+
+        res.json({
+          success: true,
+          data: {
+            transactionHash: transaction.transactionHash,
+            explorerUrl: transaction.explorerUrl,
+            amount: (parseInt(request.amount) / 1000000000).toFixed(1),
+            walletAddress: walletAddress,
+          },
+        });
+      } catch (txError: any) {
+        // Update request as failed
+        await storage.updateFaucetRequest(request.id, {
+          status: "failed",
+          errorMessage: txError.message,
+        });
+
+        const responseTime = Date.now() - startTime;
+        await storage.logClientUsage(client.clientId, "/api/v1/faucet/request", "POST", 500, responseTime);
+
+        res.status(500).json({
+          success: false,
+          error: "Transaction failed: " + txError.message,
+        });
+      }
+    } catch (error: any) {
+      const responseTime = Date.now() - startTime;
+      if ((req as any).apiClient) {
+        await storage.logClientUsage((req as any).apiClient.clientId, "/api/v1/faucet/request", "POST", 400, responseTime);
+      }
+      
+      res.status(400).json({
+        success: false,
+        error: error.message || "Invalid request",
+      });
+    }
   });
 
   const httpServer = createServer(app);

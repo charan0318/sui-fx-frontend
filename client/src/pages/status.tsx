@@ -20,6 +20,7 @@ export default function Status() {
     { name: 'API Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
     { name: 'Status', url: '/status', icon: Activity },
+    { name: 'API Clients', url: '/api-clients', icon: Shield },
     { name: 'Admin', url: '/admin', icon: Shield }
   ];
 

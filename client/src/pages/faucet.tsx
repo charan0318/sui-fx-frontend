@@ -46,7 +46,8 @@ export default function Faucet() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Docs', url: '/docs', icon: Book },
+    { name: 'API Clients', url: '/api-clients', icon: Shield },
+    { name: 'Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
     { name: 'Status', url: '/status', icon: Activity },
     { name: 'Admin', url: '/admin', icon: Shield }
@@ -336,6 +337,29 @@ export default function Faucet() {
                       </div>
                     </div>
                   )}
+                </CardContent>
+              </Card>
+
+              {/* API Info Box */}
+              <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-500/20 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-bold text-white mb-2 font-space-grotesk">Need Your Own API Key?</h4>
+                      <p className="text-gray-300 mb-4 font-inter">
+                        Register your application to get dedicated API keys and usage analytics. Perfect for production applications!
+                      </p>
+                      <Button
+                        onClick={() => window.location.href = '/api-clients'}
+                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold"
+                      >
+                        Register App
+                      </Button>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>

@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type FaucetRequest, type InsertFaucetRequest, type SystemStats } from "@shared/schema";
+import { type User, type InsertUser, type FaucetRequest, type InsertFaucetRequest, type SystemStats, type ApiClient, type InsertApiClient, type ClientUsage } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -13,17 +13,30 @@ export interface IStorage {
   getRecentFaucetRequests(limit?: number): Promise<FaucetRequest[]>;
   
   getSystemStats(): Promise<SystemStats>;
-  updateSystemStats(stats: Partial<SystemStats>): Promise<SystemStats>;
+  updateSystemStats(stats?: Partial<SystemStats>): Promise<SystemStats>;
+
+  // API Client methods
+  createApiClient(client: InsertApiClient & { clientId: string; apiKey: string }): Promise<ApiClient>;
+  getApiClientByClientId(clientId: string): Promise<ApiClient | undefined>;
+  getApiClientByApiKey(apiKey: string): Promise<ApiClient | undefined>;
+  updateApiClientLastUsed(clientId: string): Promise<void>;
+  logClientUsage(clientId: string, endpoint: string, method: string, statusCode: number, responseTime: number): Promise<void>;
+  getClientUsageStats(clientId: string): Promise<{ totalRequests: number; requestsToday: number; avgResponseTime: number; successRate: number }>;
+  getRecentClientRequests(clientId: string, limit: number): Promise<ClientUsage[]>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private faucetRequests: Map<string, FaucetRequest>;
   private systemStats: SystemStats;
+  private apiClients: Map<string, ApiClient>;
+  private clientUsage: Map<string, ClientUsage>;
 
   constructor() {
     this.users = new Map();
     this.faucetRequests = new Map();
+    this.apiClients = new Map();
+    this.clientUsage = new Map();
     this.systemStats = {
       id: randomUUID(),
       totalRequests: 0,
@@ -113,9 +126,84 @@ export class MemStorage implements IStorage {
     return this.systemStats;
   }
 
-  async updateSystemStats(stats: Partial<SystemStats>): Promise<SystemStats> {
+  async updateSystemStats(stats: Partial<SystemStats> = {}): Promise<SystemStats> {
     this.systemStats = { ...this.systemStats, ...stats };
     return this.systemStats;
+  }
+
+  // API Client methods
+  async createApiClient(client: InsertApiClient & { clientId: string; apiKey: string }): Promise<ApiClient> {
+    const id = randomUUID();
+    const apiClient: ApiClient = {
+      id,
+      clientId: client.clientId,
+      name: client.name,
+      description: client.description || null,
+      homepageUrl: client.homepageUrl || null,
+      callbackUrl: client.callbackUrl || null,
+      apiKey: client.apiKey,
+      isActive: true,
+      createdAt: new Date(),
+      lastUsed: null,
+    };
+    this.apiClients.set(id, apiClient);
+    return apiClient;
+  }
+
+  async getApiClientByClientId(clientId: string): Promise<ApiClient | undefined> {
+    return Array.from(this.apiClients.values()).find(client => client.clientId === clientId);
+  }
+
+  async getApiClientByApiKey(apiKey: string): Promise<ApiClient | undefined> {
+    return Array.from(this.apiClients.values()).find(client => client.apiKey === apiKey);
+  }
+
+  async updateApiClientLastUsed(clientId: string): Promise<void> {
+    const client = await this.getApiClientByClientId(clientId);
+    if (client) {
+      client.lastUsed = new Date();
+    }
+  }
+
+  async logClientUsage(clientId: string, endpoint: string, method: string, statusCode: number, responseTime: number): Promise<void> {
+    const id = randomUUID();
+    const usage: ClientUsage = {
+      id,
+      clientId,
+      endpoint,
+      method,
+      statusCode,
+      responseTime,
+      createdAt: new Date(),
+    };
+    this.clientUsage.set(id, usage);
+  }
+
+  async getClientUsageStats(clientId: string): Promise<{ totalRequests: number; requestsToday: number; avgResponseTime: number; successRate: number }> {
+    const usageRecords = Array.from(this.clientUsage.values()).filter(usage => usage.clientId === clientId);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const totalRequests = usageRecords.length;
+    const requestsToday = usageRecords.filter(usage => usage.createdAt >= today).length;
+    const avgResponseTime = totalRequests > 0 ? 
+      Math.round(usageRecords.reduce((sum, usage) => sum + usage.responseTime, 0) / totalRequests) : 0;
+    const successfulRequests = usageRecords.filter(usage => usage.statusCode >= 200 && usage.statusCode < 300).length;
+    const successRate = totalRequests > 0 ? Math.round((successfulRequests / totalRequests) * 100) : 0;
+
+    return {
+      totalRequests,
+      requestsToday,
+      avgResponseTime,
+      successRate,
+    };
+  }
+
+  async getRecentClientRequests(clientId: string, limit: number): Promise<ClientUsage[]> {
+    return Array.from(this.clientUsage.values())
+      .filter(usage => usage.clientId === clientId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice(0, limit);
   }
 }
 

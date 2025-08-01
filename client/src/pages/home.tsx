@@ -220,7 +220,7 @@ export default function Home(){
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 }}
-                  className="ml-20"
+                  className="ml-24 relative bottom-10"
                 >
                   <a href="/docs" className="block">
                     <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[200px] h-[60px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-cyan-400/50 hover:shadow-cyan-500/20">

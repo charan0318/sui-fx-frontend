@@ -76,7 +76,8 @@ export default function FAQ() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Docs', url: '/docs', icon: Book },
+    { name: 'API Clients', url: '/api-clients', icon: Shield },
+    { name: 'Docs', url: '/docs', icon: Book },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
     { name: 'Status', url: '/status', icon: Activity },
     { name: 'Admin', url: '/admin', icon: Shield }
