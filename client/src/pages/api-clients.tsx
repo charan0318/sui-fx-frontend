@@ -121,7 +121,7 @@ export default function ApiClients() {
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/20 to-blue-900/20" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        
+
         {/* Animated gradient orbs */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -139,75 +139,74 @@ export default function ApiClients() {
           </Badge>
         </div>
 
-        {/* Hero Section */}
-        <div className="container mx-auto px-6 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4">
-                <Key className="w-8 h-8 text-white" />
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold font-space-grotesk">
-                <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                  API Clients
-                </span>
-              </h1>
-            </div>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto font-inter leading-relaxed">
-              Register your application to get dedicated API keys, track usage analytics, and integrate seamlessly with SUI-FX faucet services.
-            </p>
-          </motion.div>
+        {/* Hero Section with Two Column Layout */}
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center min-h-[85vh]">
 
-          {/* Benefits Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid md:grid-cols-3 gap-8 mb-16"
-          >
-            {[
-              {
-                icon: BarChart3,
-                title: "Usage Analytics",
-                description: "Track API usage, response times, and success rates in real-time",
-                gradient: "from-blue-500 to-cyan-500"
-              },
-              {
-                icon: Shield,
-                title: "Dedicated Keys", 
-                description: "Get your own API keys with rate limiting and usage quotas",
-                gradient: "from-purple-500 to-pink-500"
-              },
-              {
-                icon: Zap,
-                title: "Easy Integration",
-                description: "Simple REST API with comprehensive documentation and examples",
-                gradient: "from-orange-500 to-red-500"
-              }
-            ].map((benefit, index) => (
-              <Card key={index} className="bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className={`w-16 h-16 mx-auto mb-6 bg-gradient-to-r ${benefit.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <benefit.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-4 text-white">{benefit.title}</h3>
-                  <p className="text-gray-300 font-inter">{benefit.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </motion.div>
+            {/* Left Column - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-10 order-1 lg:order-1 text-left"
+            >
+              {/* Main Headline */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="space-y-6"
+              >
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight font-space-grotesk leading-none">
+                  <span className="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                    API
+                  </span>
+                </h1>
+                <p className="text-3xl md:text-4xl text-gray-300 font-space-grotesk tracking-wide">
+                  CLIENT REGISTRATION
+                </p>
+              </motion.div>
 
-          {/* Registration Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="max-w-2xl mx-auto"
-          >
+              {/* Enhanced Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="space-y-6 max-w-2xl"
+              >
+                <p className="text-xl text-gray-300 leading-relaxed font-inter">
+                  Register your application to get dedicated API keys, track usage analytics, and integrate seamlessly with SUI-FX faucet services.
+                </p>
+              </motion.div>
+
+              {/* Feature Points */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="space-y-4"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <span className="text-lg text-gray-300 font-inter">Dedicated API keys with custom rate limits</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <span className="text-lg text-gray-300 font-inter">Real-time usage analytics and monitoring</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="text-lg text-gray-300 font-inter">Production-ready integration support</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Registration Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="order-2 lg:order-2"
+            >
             <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
               <CardHeader className="text-center pb-8">
                 <div className="flex items-center justify-center mb-4">
@@ -321,8 +320,8 @@ export default function ApiClients() {
                 </Form>
               </CardContent>
             </Card>
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
 
         {/* Footer */}
         <motion.div
@@ -354,7 +353,7 @@ export default function ApiClients() {
               Application Registered Successfully!
             </DialogTitle>
           </DialogHeader>
-          
+
           {registrationResult && (
             <div className="space-y-6">
               {/* Client ID */}

@@ -340,25 +340,37 @@ export default function Faucet() {
                 </CardContent>
               </Card>
 
-              {/* API Info Box */}
-              <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-500/20 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-6 h-6 text-white" />
+              {/* API Info Box - Matching Rate Limits Design */}
+              <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-white font-space-grotesk">
+                    <Shield className="w-6 h-6 text-blue-400 mr-3" />
+                    Need Your Own API Key?
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4 text-sm">
+                    <p className="text-gray-300 font-inter mb-4">
+                      Register your application to get dedicated API keys and usage analytics. Perfect for production applications!
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span className="text-gray-300 font-inter">Dedicated API keys with custom rate limits</span>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-bold text-white mb-2 font-space-grotesk">Need Your Own API Key?</h4>
-                      <p className="text-gray-300 mb-4 font-inter">
-                        Register your application to get dedicated API keys and usage analytics. Perfect for production applications!
-                      </p>
-                      <Button
-                        onClick={() => window.location.href = '/api-clients'}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold"
-                      >
-                        Register App
-                      </Button>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                      <span className="text-gray-300 font-inter">Real-time usage analytics and monitoring</span>
                     </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-gray-300 font-inter">Production-ready integration support</span>
+                    </div>
+                    <Button
+                      onClick={() => window.location.href = '/api-clients'}
+                      className="w-full mt-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold font-space-grotesk"
+                    >
+                      Register App
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
