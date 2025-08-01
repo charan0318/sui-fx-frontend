@@ -34,6 +34,7 @@ import {
   Zap
 } from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
+import suiFxVideo from "@/components/background/sui_fx_background.mp4";
 
 const clientRegistrationSchema = z.object({
   name: z.string().min(1, "Application name is required").max(100, "Name too long"),
@@ -60,11 +61,9 @@ export default function ApiClients() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Clients', url: '/api-clients', icon: Key },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Key },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   const form = useForm<ClientRegistrationForm>({
@@ -117,14 +116,19 @@ export default function ApiClients() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Animated Background */}
+      {/* Video Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/20 to-blue-900/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-
-        {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-100"
+        >
+          <source src={suiFxVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
 
       {/* Navigation */}
@@ -198,6 +202,27 @@ export default function ApiClients() {
                   <span className="text-lg text-gray-300 font-inter">Production-ready integration support</span>
                 </div>
               </motion.div>
+
+              {/* API Docs Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="pt-6"
+              >
+                <a href="/api-docs" className="block">
+                  <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[220px] h-[50px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-lg text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/20">
+                    <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-lg px-4">
+                      <span className="flex items-center space-x-2">
+                        <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-blue-300 to-cyan-300 group-hover:from-white group-hover:via-blue-200 group-hover:to-cyan-200 transition-all duration-300">
+                          View API Documentation
+                        </span>
+                        <Book className="w-4 h-4 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                      </span>
+                    </div>
+                  </button>
+                </a>
+              </motion.div>
             </motion.div>
 
             {/* Right Column - Registration Form */}
@@ -205,7 +230,7 @@ export default function ApiClients() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="order-2 lg:order-2"
+              className="order-2 lg:order-2 lg:-ml-16"
             >
             <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
               <CardHeader className="text-center pb-8">

@@ -13,6 +13,7 @@ import {
   Droplets 
 } from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
+import suiFxVideo from "@/components/background/sui_fx_background.mp4";
 
 
 const faqs = [
@@ -76,19 +77,26 @@ export default function FAQ() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Clients', url: '/api-clients', icon: Shield },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Shield },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Background */}
+      {/* Video Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-100"
+        >
+          <source src={suiFxVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
 
       {/* Navigation */}

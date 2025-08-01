@@ -34,14 +34,12 @@ export default function Admin() {
     refetchInterval: 30000,
   });
 
-  const navItems = [
+const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Shield },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'API Clients', url: '/api-clients', icon: Shield },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   const form = useForm<AdminLoginForm>({

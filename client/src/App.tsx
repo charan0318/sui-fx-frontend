@@ -20,7 +20,7 @@ function Router() {
       <Route path="/api-clients" component={ApiClients} />
       <Route path="/faq" component={FAQ} />
       <Route path="/admin" component={Admin} />
-      <Route path="/docs" component={Docs} />
+      <Route path="/api-docs" component={Docs} />
       <Route path="/status" component={Status} />
       <Route component={NotFound} />
     </Switch>

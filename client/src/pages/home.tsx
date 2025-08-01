@@ -103,10 +103,9 @@ export default function Home(){
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowRight },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Shield },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   return (
@@ -222,7 +221,7 @@ export default function Home(){
                   transition={{ delay: 0.8 }}
                   className="ml-24 relative bottom-10"
                 >
-                  <a href="/docs" className="block">
+                  <a href="/api-docs" className="block">
                     <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[200px] h-[60px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-cyan-400/50 hover:shadow-cyan-500/20">
                       <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full px-4">
                         <span className="flex items-center space-x-2">

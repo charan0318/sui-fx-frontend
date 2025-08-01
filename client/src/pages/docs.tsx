@@ -21,11 +21,9 @@ export default function Docs() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Clients', url: '/api-clients', icon: Shield },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Shield },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   const copyToClipboard = (text: string) => {

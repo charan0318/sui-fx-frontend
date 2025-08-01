@@ -46,11 +46,9 @@ export default function Faucet() {
   const navItems = [
     { name: 'Home', url: '/', icon: ArrowLeft },
     { name: 'Faucet', url: '/faucet', icon: Droplets },
-    { name: 'API Clients', url: '/api-clients', icon: Shield },
-    { name: 'Docs', url: '/docs', icon: Book },
+    { name: 'APIs', url: '/api-clients', icon: Shield },
     { name: 'FAQ', url: '/faq', icon: HelpCircle },
-    { name: 'Status', url: '/status', icon: Activity },
-    { name: 'Admin', url: '/admin', icon: Shield }
+    { name: 'Status', url: '/status', icon: Activity }
   ];
 
   const form = useForm<FaucetRequestForm>({
@@ -149,7 +147,7 @@ export default function Faucet() {
         {/* Main Content - Two Column Layout */}
         <div className="container mx-auto px-6 py-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
-            
+
             {/* Left Column - Faucet Form */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
