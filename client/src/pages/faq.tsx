@@ -3,14 +3,18 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { 
   HelpCircle, 
   ArrowLeft, 
   Book,
   Activity,
   Shield,
-  Droplets 
+  Droplets,
+  Rocket,
+  Zap
 } from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
 import suiFxVideo from "@/components/background/sui_fx_center.mp4";
@@ -151,22 +155,54 @@ export default function FAQ() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-black/30 border-gray-700 backdrop-blur-xl hover:bg-black/40 transition-all duration-300">
-                  <CardHeader>
-                    <CardTitle className="flex items-start text-white font-space-grotesk text-lg">
-                      <HelpCircle className="w-6 h-6 text-blue-400 mr-3 mt-1 flex-shrink-0" />
-                      {faq.question}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-300 leading-relaxed font-inter ml-9">
-                      {faq.answer}
-                    </p>
-                  </CardContent>
-                </Card>
+                <div className="relative">
+                  <GlowingEffect
+                    spread={40}
+                    glow={true}
+                    disabled={false}
+                    proximity={64}
+                    inactiveZone={0.01}
+                    borderWidth={2}
+                    className="rounded-xl"
+                  />
+                  <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl hover:bg-black/40 transition-all duration-300 relative z-10">
+                    <CardHeader>
+                      <CardTitle className="flex items-start text-white font-space-grotesk text-lg">
+                        <HelpCircle className="w-6 h-6 text-blue-400 mr-3 mt-1 flex-shrink-0" />
+                        {faq.question}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-300 leading-relaxed font-inter ml-9">
+                        {faq.answer}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
+          >
+            <a href="/faucet" className="block">
+              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold font-space-grotesk px-8 py-3 text-lg">
+                <Droplets className="w-5 h-5 mr-2" />
+                Go to Faucet
+              </Button>
+            </a>
+            <a href="/api-clients" className="block">
+              <Button variant="outline" className="w-full sm:w-auto border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk px-8 py-3 text-lg">
+                <Rocket className="w-5 h-5 mr-2" />
+                Register App
+              </Button>
+            </a>
+          </motion.div>
 
           {/* Contact Section */}
           <motion.div

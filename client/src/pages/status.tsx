@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Server, Database, Link as LinkIcon, ShieldCheck, Book, HelpCircle, Activity, Shield, Droplets, ArrowLeft } from "lucide-react";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { Server, Database, Link as LinkIcon, ShieldCheck, Book, HelpCircle, Activity, Shield, Droplets, ArrowLeft, Key, Rocket, Zap, BarChart3 } from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
+import suiFxVideo from "@/components/background/sui_fx_center.mp4";
 
 export default function Status() {
   // Get system stats
@@ -51,10 +54,19 @@ export default function Status() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Background */}
+      {/* Video Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-100"
+        >
+          <source src={suiFxVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
 
       {/* Navigation */}
@@ -88,111 +100,202 @@ export default function Status() {
       <div className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Overall Status */}
-          <Card className="glass-morphism border-gray-700 text-center">
-            <CardContent className="pt-6">
-              <div className="inline-flex items-center space-x-3 mb-4">
-                <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-2xl font-bold text-green-400">All Systems Operational</span>
-              </div>
-              <p className="text-gray-400">Last updated: 2 minutes ago</p>
-            </CardContent>
-          </Card>
+          <div className="relative">
+            <GlowingEffect
+              spread={60}
+              glow={true}
+              disabled={false}
+              proximity={80}
+              inactiveZone={0.01}
+              borderWidth={3}
+              className="rounded-xl"
+            />
+            <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl text-center relative z-10">
+              <CardContent className="pt-6">
+                <div className="inline-flex items-center space-x-3 mb-4">
+                  <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-2xl font-bold text-green-400 font-space-grotesk">All Systems Operational</span>
+                </div>
+                <p className="text-gray-400 font-inter">Last updated: 2 minutes ago</p>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Service Status */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => {
+            {services.map((service, index) => {
               const IconComponent = service.icon;
               return (
-                <Card key={service.name} className="glass-morphism border-gray-700 text-center">
-                  <CardContent className="pt-6">
-                    <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <IconComponent className="w-6 h-6 text-green-400" />
-                    </div>
-                    <h3 className="font-semibold mb-2">{service.name}</h3>
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-sm text-green-400 capitalize">{service.status}</span>
-                    </div>
-                    <p className="text-xs text-gray-400">
-                      {service.responseTime && `Response time: ${service.responseTime}`}
-                      {service.blockHeight && `Block height: ${service.blockHeight}`}
-                      {service.ssl && `SSL: ${service.ssl}`}
-                    </p>
-                  </CardContent>
-                </Card>
+                <motion.div
+                  key={service.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative"
+                >
+                  <GlowingEffect
+                    spread={30}
+                    glow={true}
+                    disabled={false}
+                    proximity={48}
+                    inactiveZone={0.01}
+                    borderWidth={2}
+                    className="rounded-xl"
+                  />
+                  <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl text-center relative z-10 h-full">
+                    <CardContent className="pt-6">
+                      <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <IconComponent className="w-6 h-6 text-green-400" />
+                      </div>
+                      <h3 className="font-semibold mb-2 font-space-grotesk">{service.name}</h3>
+                      <div className="flex items-center justify-center space-x-2 mb-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-sm text-green-400 capitalize font-inter">{service.status}</span>
+                      </div>
+                      <p className="text-xs text-gray-400 font-inter">
+                        {service.responseTime && `Response time: ${service.responseTime}`}
+                        {service.blockHeight && `Block height: ${service.blockHeight}`}
+                        {service.ssl && `SSL: ${service.ssl}`}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               );
             })}
           </div>
 
           {/* Performance Metrics */}
-          <Card className="glass-morphism border-gray-700">
-            <CardHeader>
-              <CardTitle>Performance Metrics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-2">99.9%</div>
-                  <div className="text-sm text-gray-400">Uptime (30 days)</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">156ms</div>
-                  <div className="text-sm text-gray-400">Avg Response Time</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">
-                    {stats?.success ? stats.data.successRate : "98.5%"}
-                  </div>
-                  <div className="text-sm text-gray-400">Success Rate</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Live Statistics */}
-          {stats?.success && (
-            <Card className="glass-morphism border-gray-700">
+          <div className="relative">
+            <GlowingEffect
+              spread={50}
+              glow={true}
+              disabled={false}
+              proximity={72}
+              inactiveZone={0.01}
+              borderWidth={2}
+              className="rounded-xl"
+            />
+            <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl relative z-10">
               <CardHeader>
-                <CardTitle>Live Statistics</CardTitle>
+                <CardTitle className="flex items-center font-space-grotesk">
+                  <BarChart3 className="w-6 h-6 text-blue-400 mr-3" />
+                  Performance Metrics
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-400 mb-2">{stats.data.totalRequests}</div>
-                    <div className="text-sm text-gray-400">Total Requests</div>
+                    <div className="text-3xl font-bold text-green-400 mb-2 font-space-grotesk">99.9%</div>
+                    <div className="text-sm text-gray-400 font-inter">Uptime (30 days)</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-400 mb-2">{stats.data.successfulRequests}</div>
-                    <div className="text-sm text-gray-400">Successful Requests</div>
+                    <div className="text-3xl font-bold text-blue-400 mb-2 font-space-grotesk">156ms</div>
+                    <div className="text-sm text-gray-400 font-inter">Avg Response Time</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-400 mb-2">{stats.data.totalDistributed} SUI</div>
-                    <div className="text-sm text-gray-400">Total Distributed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-yellow-400 mb-2">{stats.data.uptime}</div>
-                    <div className="text-sm text-gray-400">Current Uptime</div>
+                    <div className="text-3xl font-bold text-purple-400 mb-2 font-space-grotesk">
+                      {stats?.success ? stats.data.successRate : "98.5%"}
+                    </div>
+                    <div className="text-sm text-gray-400 font-inter">Success Rate</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Live Statistics */}
+          {stats?.success && (
+            <div className="relative">
+              <GlowingEffect
+                spread={45}
+                glow={true}
+                disabled={false}
+                proximity={68}
+                inactiveZone={0.01}
+                borderWidth={2}
+                className="rounded-xl"
+              />
+              <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl relative z-10">
+                <CardHeader>
+                  <CardTitle className="flex items-center font-space-grotesk">
+                    <Zap className="w-6 h-6 text-yellow-400 mr-3" />
+                    Live Statistics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-400 mb-2 font-space-grotesk">{stats.data.totalRequests}</div>
+                      <div className="text-sm text-gray-400 font-inter">Total Requests</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-400 mb-2 font-space-grotesk">{stats.data.successfulRequests}</div>
+                      <div className="text-sm text-gray-400 font-inter">Successful Requests</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-400 mb-2 font-space-grotesk">{stats.data.totalDistributed} SUI</div>
+                      <div className="text-sm text-gray-400 font-inter">Total Distributed</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-400 mb-2 font-space-grotesk">{stats.data.uptime}</div>
+                      <div className="text-sm text-gray-400 font-inter">Current Uptime</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           )}
 
           {/* Incident History */}
-          <Card className="glass-morphism border-gray-700">
-            <CardHeader>
-              <CardTitle>Recent Incidents</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ShieldCheck className="w-8 h-8 text-green-400" />
+          <div className="relative">
+            <GlowingEffect
+              spread={40}
+              glow={true}
+              disabled={false}
+              proximity={64}
+              inactiveZone={0.01}
+              borderWidth={2}
+              className="rounded-xl"
+            />
+            <Card className="bg-black/30 border-gray-700/50 backdrop-blur-xl relative z-10">
+              <CardHeader>
+                <CardTitle className="flex items-center font-space-grotesk">
+                  <ShieldCheck className="w-6 h-6 text-green-400 mr-3" />
+                  Recent Incidents
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <ShieldCheck className="w-8 h-8 text-green-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-green-400 mb-2 font-space-grotesk">No Recent Incidents</h3>
+                  <p className="text-gray-400 font-inter">All systems have been running smoothly for the past 30 days.</p>
                 </div>
-                <h3 className="text-lg font-semibold text-green-400 mb-2">No Recent Incidents</h3>
-                <p className="text-gray-400">All systems have been running smoothly for the past 30 days.</p>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+          >
+            <a href="/faucet" className="block">
+              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold font-space-grotesk px-8 py-3 text-lg">
+                <Droplets className="w-5 h-5 mr-2" />
+                Go to Faucet
+              </Button>
+            </a>
+            <a href="/api-clients" className="block">
+              <Button variant="outline" className="w-full sm:w-auto border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk px-8 py-3 text-lg">
+                <Rocket className="w-5 h-5 mr-2" />
+                Register App
+              </Button>
+            </a>
+          </motion.div>
         </div>
       </div>
 

@@ -203,12 +203,12 @@ export default function ApiClients() {
                 </div>
               </motion.div>
 
-              {/* API Docs Button */}
+              {/* Action Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="pt-6"
+                className="pt-6 space-y-4"
               >
                 <a href="/api-docs" className="block">
                   <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[220px] h-[50px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-lg text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/20">
@@ -218,6 +218,19 @@ export default function ApiClients() {
                           View API Documentation
                         </span>
                         <Book className="w-4 h-4 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                      </span>
+                    </div>
+                  </button>
+                </a>
+                
+                <a href="/faucet" className="block">
+                  <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[220px] h-[50px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-lg text-white transition-all duration-300 hover:bg-black/80 hover:border-purple-400/50 hover:shadow-purple-500/20">
+                    <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-lg px-4">
+                      <span className="flex items-center space-x-2">
+                        <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-purple-300 to-pink-300 group-hover:from-white group-hover:via-purple-200 group-hover:to-pink-200 transition-all duration-300">
+                          Get SUI Tokens
+                        </span>
+                        <Droplets className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
                       </span>
                     </div>
                   </button>
