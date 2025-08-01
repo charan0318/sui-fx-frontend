@@ -13,7 +13,7 @@ import {
   Droplets 
 } from "lucide-react";
 import logoFm from "@/components/background/logo_fm.png";
-import suiFxVideo from "@/components/background/sui_fx_background.mp4";
+import suiFxVideo from "@/components/background/sui_fx_center.mp4";
 
 
 const faqs = [
