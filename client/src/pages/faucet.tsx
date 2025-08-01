@@ -363,23 +363,7 @@ export default function Faucet() {
                       <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                       <span className="text-gray-300 font-inter">Production-ready integration support</span>
                     </div>
-                    <div className="flex space-x-3 mt-4">
-                      <Button
-                        onClick={() => window.location.href = '/api-clients'}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold font-space-grotesk"
-                      >
-                        <Rocket className="w-4 h-4 mr-2" />
-                        Register App
-                      </Button>
-                      <Button
-                        onClick={() => window.location.href = '/status'}
-                        variant="outline"
-                        className="flex-1 border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk"
-                      >
-                        <Activity className="w-4 h-4 mr-2" />
-                        System Status
-                      </Button>
-                    </div>
+                    
                   </div>
                 </CardContent>
               </Card>

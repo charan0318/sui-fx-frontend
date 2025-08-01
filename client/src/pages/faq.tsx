@@ -183,26 +183,7 @@ export default function FAQ() {
             ))}
           </div>
 
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
-          >
-            <a href="/faucet" className="block">
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold font-space-grotesk px-8 py-3 text-lg">
-                <Droplets className="w-5 h-5 mr-2" />
-                Go to Faucet
-              </Button>
-            </a>
-            <a href="/api-clients" className="block">
-              <Button variant="outline" className="w-full sm:w-auto border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk px-8 py-3 text-lg">
-                <Rocket className="w-5 h-5 mr-2" />
-                Register App
-              </Button>
-            </a>
-          </motion.div>
+          
 
           {/* Contact Section */}
           <motion.div

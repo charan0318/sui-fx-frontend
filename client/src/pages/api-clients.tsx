@@ -33,6 +33,7 @@ import {
   AlertTriangle,
   Zap
 } from "lucide-react";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 import logoFm from "@/components/background/logo_fm.png";
 import suiFxVideo from "@/components/background/sui_fx_center.mp4";
 
@@ -203,39 +204,7 @@ export default function ApiClients() {
                 </div>
               </motion.div>
 
-              {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="pt-6 space-y-4"
-              >
-                <a href="/api-docs" className="block">
-                  <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[220px] h-[50px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-lg text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/20">
-                    <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-lg px-4">
-                      <span className="flex items-center space-x-2">
-                        <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-blue-300 to-cyan-300 group-hover:from-white group-hover:via-blue-200 group-hover:to-cyan-200 transition-all duration-300">
-                          View API Documentation
-                        </span>
-                        <Book className="w-4 h-4 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
-                      </span>
-                    </div>
-                  </button>
-                </a>
-                
-                <a href="/faucet" className="block">
-                  <button className="bg-black/60 border border-white/20 backdrop-blur-sm w-[220px] h-[50px] no-underline group cursor-pointer relative shadow-2xl shadow-black/50 rounded-lg text-white transition-all duration-300 hover:bg-black/80 hover:border-purple-400/50 hover:shadow-purple-500/20">
-                    <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-lg px-4">
-                      <span className="flex items-center space-x-2">
-                        <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-purple-300 to-pink-300 group-hover:from-white group-hover:via-purple-200 group-hover:to-pink-200 transition-all duration-300">
-                          Get SUI Tokens
-                        </span>
-                        <Droplets className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors duration-300" />
-                      </span>
-                    </div>
-                  </button>
-                </a>
-              </motion.div>
+              
             </motion.div>
 
             {/* Right Column - Registration Form */}
@@ -344,16 +313,34 @@ export default function ApiClients() {
                       />
                     </div>
 
-                    <Button
-                      type="submit"
-                      disabled={registerMutation.isPending}
-                      className="w-full h-14 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
-                    >
-                      <div className="flex items-center justify-center space-x-3">
-                        <Rocket className="w-6 h-6" />
-                        <span>{registerMutation.isPending ? "Registering..." : "Register Application"}</span>
-                      </div>
-                    </Button>
+                    <div className="relative w-full">
+                      <GlowingEffect 
+                        blur={15}
+                        spread={30}
+                        variant="default"
+                        glow={true}
+                        className="w-full h-14 rounded-full"
+                        disabled={registerMutation.isPending}
+                      >
+                        <button 
+                          type="submit"
+                          disabled={registerMutation.isPending}
+                          className="bg-black/80 backdrop-blur-sm w-full h-14 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-base font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <span className="absolute inset-0 overflow-hidden rounded-full">
+                            <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                          </span>
+                          <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                            <span className="flex items-center space-x-3">
+                              <Rocket className="w-6 h-6 text-blue-400" />
+                              <span className="text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                                {registerMutation.isPending ? "REGISTERING..." : "REGISTER APPLICATION"}
+                              </span>
+                            </span>
+                          </div>
+                        </button>
+                      </GlowingEffect>
+                    </div>
                   </form>
                 </Form>
               </CardContent>
