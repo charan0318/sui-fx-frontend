@@ -214,7 +214,17 @@ export default function ApiClients() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="order-2 lg:order-2 lg:-ml-16"
             >
-            <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+            <div className="relative">
+              <GlowingEffect
+                spread={40}
+                glow={true}
+                disabled={false}
+                proximity={64}
+                inactiveZone={0.01}
+                borderWidth={2}
+                className="rounded-xl"
+              />
+              <Card className="bg-white/5 border-white/10 backdrop-blur-xl relative z-10">
               <CardHeader className="text-center pb-8">
                 <div className="flex items-center justify-center mb-4">
                   <Rocket className="w-8 h-8 text-blue-400 mr-3" />
@@ -344,6 +354,7 @@ export default function ApiClients() {
                 </Form>
               </CardContent>
             </Card>
+            </div>
             </motion.div>
           </div>
 

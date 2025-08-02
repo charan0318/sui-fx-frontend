@@ -156,232 +156,238 @@ export default function Faucet() {
               className="space-y-6"
             >
               {/* Faucet Card */}
-              <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-white font-space-grotesk">
-                    <Droplets className="w-6 h-6 text-blue-400 mr-3" />
-                    Request Testnet Tokens
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {!lastTransaction ? (
-                    <Form {...form}>
-                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField
-                          control={form.control}
-                          name="walletAddress"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-gray-300 font-inter">Enter your SUI wallet address</FormLabel>
-                              <FormControl>
-                                <div className="relative">
-                                  <Input
-                                    placeholder="0x1234567890abcdef..."
-                                    {...field}
-                                    className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 pr-10 font-mono"
-                                    disabled={requestTokensMutation.isPending}
-                                  />
-                                  {field.value && (
-                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                      {form.formState.errors.walletAddress ? (
-                                        <XCircle className="w-5 h-5 text-red-400" />
-                                      ) : (
-                                        <CheckCircle className="w-5 h-5 text-green-400" />
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* Amount Display */}
-                        <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
-                          <span className="text-gray-300 font-inter">Amount per request:</span>
-                          <Badge variant="secondary" className="bg-blue-500/20 text-blue-300">
-                            0.1 SUI
-                          </Badge>
-                        </div>
-
-                        {/* Enhanced Request Button */}
-                        <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-full">
-                          <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
-                          <Button
-                            type="submit"
-                            disabled={requestTokensMutation.isPending}
-                            className="relative w-full bg-black hover:bg-gray-900 text-white font-semibold py-6 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
-                          >
-                            {requestTokensMutation.isPending ? (
-                              <div className="flex items-center justify-center space-x-3">
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                                <span>PROCESSING...</span>
-                              </div>
-                            ) : (
-                              <div className="flex items-center justify-center space-x-3">
-                                <span>SEND 1 SUI</span>
-                                <ArrowRight className="w-5 h-5" />
-                              </div>
+              <div className="transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+                <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-white font-space-grotesk">
+                      <Droplets className="w-6 h-6 text-blue-400 mr-3" />
+                      Request Testnet Tokens
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {!lastTransaction ? (
+                      <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="walletAddress"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-300 font-inter">Enter your SUI wallet address</FormLabel>
+                                <FormControl>
+                                  <div className="relative">
+                                    <Input
+                                      placeholder="0x1234567890abcdef..."
+                                      {...field}
+                                      className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 pr-10 font-mono"
+                                      disabled={requestTokensMutation.isPending}
+                                    />
+                                    {field.value && (
+                                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                        {form.formState.errors.walletAddress ? (
+                                          <XCircle className="w-5 h-5 text-red-400" />
+                                        ) : (
+                                          <CheckCircle className="w-5 h-5 text-green-400" />
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
                             )}
-                          </Button>
-                        </div>
-                      </form>
-                    </Form>
-                  ) : (
-                    /* Transaction Result */
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-4"
-                    >
-                      <div className={`p-4 rounded-lg border ${
-                        lastTransaction.success 
-                          ? 'bg-green-500/10 border-green-500/30' 
-                          : 'bg-red-500/10 border-red-500/30'
-                      }`}>
-                        <div className="flex items-center mb-2">
-                          {lastTransaction.success ? (
-                            <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-red-400 mr-2" />
-                          )}
-                          <span className={`font-semibold font-space-grotesk ${
-                            lastTransaction.success ? 'text-green-400' : 'text-red-400'
-                          }`}>
-                            {lastTransaction.success ? 'Transaction Successful' : 'Transaction Failed'}
-                          </span>
-                        </div>
-                        <p className="text-gray-300 font-inter text-sm">{lastTransaction.message}</p>
-                      </div>
+                          />
 
-                      {lastTransaction.success && lastTransaction.data && (
-                        <div className="space-y-3">
-                          {/* Transaction Hash */}
-                          <div className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
-                            <div className="min-w-0 flex-1">
-                              <span className="text-sm text-gray-400 font-inter">Transaction Hash:</span>
-                              <p className="font-mono text-sm text-white break-all">
-                                {lastTransaction.data.transactionHash}
-                              </p>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => copyToClipboard(lastTransaction.data.transactionHash)}
-                              className="ml-2 shrink-0"
-                            >
-                              <Copy className="w-4 h-4" />
-                            </Button>
+                          {/* Amount Display */}
+                          <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                            <span className="text-gray-300 font-inter">Amount per request:</span>
+                            <Badge variant="secondary" className="bg-blue-500/20 text-blue-300">
+                              0.1 SUI
+                            </Badge>
                           </div>
 
-                          {/* Explorer Link */}
-                          <Button
-                            variant="outline"
-                            className="w-full border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk"
-                            onClick={() => window.open(lastTransaction.data.explorerUrl, '_blank')}
-                          >
-                            <ExternalLink className="w-4 h-4 mr-2" />
-                            View on Explorer
-                          </Button>
-                        </div>
-                      )}
-
-                      <Button
-                        variant="ghost"
-                        className="w-full text-gray-400 hover:text-white font-inter"
-                        onClick={() => {
-                          setLastTransaction(null);
-                          form.reset();
-                        }}
+                          {/* Enhanced Request Button */}
+                          <div className="relative inline-block overflow-hidden rounded-full p-[2px] w-full">
+                            <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#18CCFC_0%,#6344F5_50%,#AE48FF_100%)]" />
+                            <Button
+                              type="submit"
+                              disabled={requestTokensMutation.isPending}
+                              className="relative w-full bg-black hover:bg-gray-900 text-white font-semibold py-6 text-lg transition-all duration-300 font-space-grotesk rounded-full border-0"
+                            >
+                              {requestTokensMutation.isPending ? (
+                                <div className="flex items-center justify-center space-x-3">
+                                  <Loader2 className="w-5 h-5 animate-spin" />
+                                  <span>PROCESSING...</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center justify-center space-x-3">
+                                  <span>SEND 1 SUI</span>
+                                  <ArrowRight className="w-5 h-5" />
+                                </div>
+                              )}
+                            </Button>
+                          </div>
+                        </form>
+                      </Form>
+                    ) : (
+                      /* Transaction Result */
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-4"
                       >
-                        Request More Tokens
-                      </Button>
-                    </motion.div>
-                  )}
-                </CardContent>
-              </Card>
+                        <div className={`p-4 rounded-lg border ${
+                          lastTransaction.success 
+                            ? 'bg-green-500/10 border-green-500/30' 
+                            : 'bg-red-500/10 border-red-500/30'
+                        }`}>
+                          <div className="flex items-center mb-2">
+                            {lastTransaction.success ? (
+                              <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
+                            ) : (
+                              <XCircle className="w-5 h-5 text-red-400 mr-2" />
+                            )}
+                            <span className={`font-semibold font-space-grotesk ${
+                              lastTransaction.success ? 'text-green-400' : 'text-red-400'
+                            }`}>
+                              {lastTransaction.success ? 'Transaction Successful' : 'Transaction Failed'}
+                            </span>
+                          </div>
+                          <p className="text-gray-300 font-inter text-sm">{lastTransaction.message}</p>
+                        </div>
+
+                        {lastTransaction.success && lastTransaction.data && (
+                          <div className="space-y-3">
+                            {/* Transaction Hash */}
+                            <div className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
+                              <div className="min-w-0 flex-1">
+                                <span className="text-sm text-gray-400 font-inter">Transaction Hash:</span>
+                                <p className="font-mono text-sm text-white break-all">
+                                  {lastTransaction.data.transactionHash}
+                                </p>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(lastTransaction.data.transactionHash)}
+                                className="ml-2 shrink-0"
+                              >
+                                <Copy className="w-4 h-4" />
+                              </Button>
+                            </div>
+
+                            {/* Explorer Link */}
+                            <Button
+                              variant="outline"
+                              className="w-full border-gray-600 text-gray-300 hover:text-white hover:bg-white/10 font-space-grotesk"
+                              onClick={() => window.open(lastTransaction.data.explorerUrl, '_blank')}
+                            >
+                              <ExternalLink className="w-4 h-4 mr-2" />
+                              View on Explorer
+                            </Button>
+                          </div>
+                        )}
+
+                        <Button
+                          variant="ghost"
+                          className="w-full text-gray-400 hover:text-white font-inter"
+                          onClick={() => {
+                            setLastTransaction(null);
+                            form.reset();
+                          }}
+                        >
+                          Request More Tokens
+                        </Button>
+                      </motion.div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
 
               {/* Rate Limiting Info */}
-              <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-white font-space-grotesk">
-                    <Clock className="w-6 h-6 text-yellow-400 mr-3" />
-                    Rate Limits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 gap-4 text-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">1 request per hour per wallet</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">100 requests per hour per IP</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">No registration required</span>
-                    </div>
-                  </div>
-                  {rateLimitInfo && (
-                    <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                      <div className="flex items-center space-x-2 text-yellow-400">
-                        <AlertTriangle className="w-4 h-4" />
-                        <span className="text-sm font-inter">
-                          Next request available in: {formatTimeRemaining(rateLimitInfo.nextRequest)}
-                        </span>
+              <div className="transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+                <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-white font-space-grotesk">
+                      <Clock className="w-6 h-6 text-yellow-400 mr-3" />
+                      Rate Limits
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 gap-4 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">1 request per hour per wallet</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">100 requests per hour per IP</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">No registration required</span>
                       </div>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* API Info Box - Matching Rate Limits Design */}
-              <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center text-white font-space-grotesk">
-                    <Shield className="w-6 h-6 text-blue-400 mr-3" />
-                    Need Your Own API Key?
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4 text-sm">
-                    <p className="text-gray-300 font-inter mb-4">
-                      Register your application to get dedicated API keys and usage analytics. Perfect for production applications!
-                    </p>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">Dedicated API keys with custom rate limits</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">Real-time usage analytics and monitoring</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-gray-300 font-inter">Production-ready integration support</span>
-                    </div>
-                    
-                  </div>
-                  
-                  {/* Register API Button */}
-                  <div className="mt-6">
-                    <a href="/api-clients" className="block">
-                      <button className="bg-black/60 border border-blue-500/30 backdrop-blur-sm w-full h-12 no-underline group cursor-pointer relative shadow-2xl shadow-blue-500/20 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/30">
-                        <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full px-4">
-                          <span className="flex items-center space-x-2">         
-                            <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-blue-300 to-purple-300 group-hover:from-white group-hover:via-blue-200 group-hover:to-purple-200 transition-all duration-300">
-                              Register Your API
-                            </span>
+                    {rateLimitInfo && (
+                      <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                        <div className="flex items-center space-x-2 text-yellow-400">
+                          <AlertTriangle className="w-4 h-4" />
+                          <span className="text-sm font-inter">
+                            Next request available in: {formatTimeRemaining(rateLimitInfo.nextRequest)}
                           </span>
                         </div>
-                      </button>
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* API Info Box - Matching Rate Limits Design */}
+              <div className="transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20">
+                <Card className="bg-black/30 border-gray-700 backdrop-blur-xl">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-white font-space-grotesk">
+                      <Shield className="w-6 h-6 text-blue-400 mr-3" />
+                      Need Your Own API Key?
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4 text-sm">
+                      <p className="text-gray-300 font-inter mb-4">
+                        Register your application to get dedicated API keys and usage analytics. Perfect for production applications!
+                      </p>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">Dedicated API keys with custom rate limits</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">Real-time usage analytics and monitoring</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-gray-300 font-inter">Production-ready integration support</span>
+                      </div>
+
+                    </div>
+
+                    {/* Register API Button */}
+                    <div className="mt-6">
+                      <a href="/api-clients" className="block">
+                        <button className="bg-black/60 border border-blue-500/30 backdrop-blur-sm w-full h-12 no-underline group cursor-pointer relative shadow-2xl shadow-blue-500/20 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/30">
+                          <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full px-4">
+                            <span className="flex items-center space-x-2">         
+                              <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-blue-300 to-purple-300 group-hover:from-white group-hover:via-blue-200 group-hover:to-purple-200 transition-all duration-300">
+                                Register Your API
+                              </span>
+                            </span>
+                          </div>
+                        </button>
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </motion.div>
           </div>
         </div>

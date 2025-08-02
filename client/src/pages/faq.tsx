@@ -200,13 +200,30 @@ export default function FAQ() {
                 <p className="text-gray-300 font-inter mb-6">
                   Can't find the answer you're looking for? Our support team is here to help.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a 
-                    href="https://discord.gg/your-discord-link" 
-                    className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-lg text-white font-semibold font-space-grotesk transition-all duration-300"
-                  >
-                    Contact Us
-                  </a>
+                <div className="flex justify-center">
+                  <div className="relative">
+                    <GlowingEffect 
+                      blur={15}
+                      spread={30}
+                      variant="default"
+                      glow={true}
+                      className="w-48 h-12 rounded-full"
+                      disabled={false}
+                    />
+                    <a 
+                      href="https://discord.gg/your-discord-link"
+                      className="bg-black/80 backdrop-blur-sm w-48 h-12 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-base font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300 flex items-center justify-center"
+                    >
+                      <span className="absolute inset-0 overflow-hidden rounded-full">
+                        <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      </span>
+                      <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                        <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                          Contact Us
+                        </span>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </CardContent>
             </Card>
