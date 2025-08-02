@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import logoFm from '@/components/background/logo_fm.png';
-import suiFxLoadingVideo from '@/components/background/sui_fx_loading.mp4';
+import suiFxLoadingVideo from '@/components/background/sui_fx_background.mp4';
 
 interface LoadingPageProps {
   onComplete?: () => void;

@@ -321,25 +321,24 @@ export default function ApiClients() {
                         glow={true}
                         className="w-full h-14 rounded-full"
                         disabled={registerMutation.isPending}
+                      />
+                      <button 
+                        type="submit"
+                        disabled={registerMutation.isPending}
+                        className="bg-black/80 backdrop-blur-sm w-full h-14 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-base font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <button 
-                          type="submit"
-                          disabled={registerMutation.isPending}
-                          className="bg-black/80 backdrop-blur-sm w-full h-14 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-base font-semibold leading-6 text-white inline-block hover:bg-gray-900/80 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <span className="absolute inset-0 overflow-hidden rounded-full">
-                            <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                          </span>
-                          <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
-                            <span className="flex items-center space-x-3">
-                              <Rocket className="w-6 h-6 text-blue-400" />
-                              <span className="text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
-                                {registerMutation.isPending ? "REGISTERING..." : "REGISTER APPLICATION"}
-                              </span>
+                        <span className="absolute inset-0 overflow-hidden rounded-full">
+                          <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        </span>
+                        <div className="relative flex justify-center w-full text-center space-x-2 h-full items-center z-10 rounded-full bg-black/90 py-0.5 px-4 ring-1 ring-white/10">
+                          <span className="flex items-center space-x-3">
+                            <Rocket className="w-6 h-6 text-blue-400" />
+                            <span className="text-lg font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-300 to-purple-300">
+                              {registerMutation.isPending ? "REGISTERING..." : "REGISTER APPLICATION"}
                             </span>
-                          </div>
-                        </button>
-                      </GlowingEffect>
+                          </span>
+                        </div>
+                      </button>
                     </div>
                   </form>
                 </Form>

@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { Link, useLocation } from "wouter"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -18,7 +19,7 @@ interface NavBarProps {
 }
 
 export function NavBar({ items, className }: NavBarProps) {
-  const [activeTab, setActiveTab] = useState(items[0].name)
+  const [location] = useLocation()
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -31,14 +32,7 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  useEffect(() => {
-    // Set active tab based on current URL
-    const currentPath = window.location.pathname
-    const currentItem = items.find(item => item.url === currentPath)
-    if (currentItem) {
-      setActiveTab(currentItem.name)
-    }
-  }, [])
+  const activeTab = items.find(item => item.url === location)?.name || items[0].name
 
   return (
     <div
@@ -53,10 +47,9 @@ export function NavBar({ items, className }: NavBarProps) {
           const isActive = activeTab === item.name
 
           return (
-            <a
+            <Link
               key={item.name}
               href={item.url}
-              onClick={() => setActiveTab(item.name)}
               className={cn(
                 "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
                 "text-foreground/80 hover:text-primary",
@@ -85,7 +78,7 @@ export function NavBar({ items, className }: NavBarProps) {
                   </div>
                 </motion.div>
               )}
-            </a>
+            </Link>
           )
         })}
       </div>

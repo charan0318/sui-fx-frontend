@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { Router, Route, Switch } from "wouter";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { LoadingPage } from "@/components/ui/loading-page";
 
@@ -12,8 +13,6 @@ import Status from "@/pages/status";
 import Admin from "@/pages/admin";
 import Docs from "@/pages/docs";
 import NotFound from "@/pages/not-found";
-
-const queryClient = new QueryClient();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,16 +36,16 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/faucet" element={<Faucet />} />
-          <Route path="/api-clients" element={<ApiClients />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/status" element={<Status />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/api-docs" element={<Docs />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/faucet" component={Faucet} />
+          <Route path="/api-clients" component={ApiClients} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/status" component={Status} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/api-docs" component={Docs} />
+          <Route component={NotFound} />
+        </Switch>
       </Router>
       <Toaster />
     </QueryClientProvider>
