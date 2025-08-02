@@ -371,8 +371,7 @@ export default function Faucet() {
                     <a href="/api-clients" className="block">
                       <button className="bg-black/60 border border-blue-500/30 backdrop-blur-sm w-full h-12 no-underline group cursor-pointer relative shadow-2xl shadow-blue-500/20 rounded-full text-white transition-all duration-300 hover:bg-black/80 hover:border-blue-400/50 hover:shadow-blue-500/30">
                         <div className="relative flex justify-center w-full text-center h-full items-center z-10 rounded-full px-4">
-                          <span className="flex items-center space-x-2">
-                            <Shield className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                          <span className="flex items-center space-x-2">         
                             <span className="text-base font-space-grotesk bg-clip-text text-transparent bg-gradient-to-r from-gray-200 via-blue-300 to-purple-300 group-hover:from-white group-hover:via-blue-200 group-hover:to-purple-200 transition-all duration-300">
                               Register Your API
                             </span>
@@ -408,7 +407,7 @@ export default function Faucet() {
             rel="noopener noreferrer"
             className="inline-flex items-center px-4 py-2 bg-black/20 border border-white/10 backdrop-blur-sm rounded-lg text-white/80 hover:text-white hover:bg-black/30 transition-all duration-300 text-sm font-inter"
           >
-            Built with Sui
+            Build with Sui
           </a>
         </motion.div>
       </div>

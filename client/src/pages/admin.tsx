@@ -429,7 +429,7 @@ const navItems = [
             rel="noopener noreferrer"
             className="inline-flex items-center px-4 py-2 bg-black/20 border border-white/10 backdrop-blur-sm rounded-lg text-white/80 hover:text-white hover:bg-black/30 transition-all duration-300 text-sm font-inter"
           >
-            Built with Sui
+            Build with Sui
           </a>
         </motion.div>
       </div>
